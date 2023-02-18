@@ -10,14 +10,16 @@ import {
   fetchRoomDataEvent,
   getRoomDataEvent,
   leaveRoomEvent,
+  toggleUserVisibilityEvent,
   userLeftEvent,
 } from '../events';
 
-import { IUser } from '../interfaces';
+import { IToggleUserVisibility, IUser } from '../interfaces';
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
 } from '../helper';
+import usePageVisibility from '../hooks/usePageVisibility';
 
 const Room = () => {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const Room = () => {
   const [localUser, setLocalUser] = useState(
     getUserFromLocalStorage(String(roomId))
   );
+  const pageVisibilityStatus = usePageVisibility();
 
   const onLeave = () => {
     const { userId } = localUser;
@@ -60,6 +63,17 @@ const Room = () => {
     };
   }, [io]);
 
+  useEffect(() => {
+    const toggleUserVisibilityEventPayload: IToggleUserVisibility = {
+      user: localUser,
+      visibilityStatus: pageVisibilityStatus,
+    };
+    io.emit(
+      toggleUserVisibilityEvent,
+      toggleUserVisibilityEventPayload
+    );
+  }, [pageVisibilityStatus]);
+
   return (
     <>
       <div>
@@ -70,7 +84,7 @@ const Room = () => {
         </button>
         <ul>
           {users.map((user: IUser) => {
-            return <li key={user.userId}>{user.fullName}</li>;
+            return <li key={user.userId}>{user.fullName} - {!user.visibility ? '🟢 online' : '🟡 away'}</li>;
           })}
         </ul>
       </div>
