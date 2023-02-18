@@ -1,16 +1,14 @@
-import './App.css';
-import { useContext, useEffect } from 'react';
-import SocketContext from './context/socket';
-import { Socket } from 'socket.io-client';
+import CreateRoom from './components/createRoom';
+import JoinRoom from './components/joinRoom';
 
-function App() {
-  const socket: Socket = useContext(SocketContext);
-  useEffect(() => {
-    return () => {
-      console.log(socket);
-    };
-  }, []);
-  return <div>Hello</div>;
+function App(props: any) {
+  return (
+    <div>
+      <CreateRoom />
+      <hr />
+      <JoinRoom />
+    </div>
+  );
 }
 
 export default App;
