@@ -9,7 +9,6 @@ export interface IUser {
   roomId: string;
   userId: string;
   visibility?: boolean;
-
 }
 
 export interface IToggleUserVisibility {

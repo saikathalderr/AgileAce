@@ -1,10 +1,6 @@
 import SocketContext from '../context/socket';
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import {
   fetchRoomDataEvent,
@@ -20,6 +16,10 @@ import {
   removeUserFromLocalStorage,
 } from '../helper';
 import usePageVisibility from '../hooks/usePageVisibility';
+import Card from '../components/card';
+import Button from '../components/button';
+import AppBar from '../components/appBar';
+import UsersList from '../components/usersList';
 
 const Room = () => {
   const navigate = useNavigate();
@@ -77,16 +77,11 @@ const Room = () => {
   return (
     <>
       <div>
-        <h1>Room: </h1>
-        <input type='text' defaultValue={roomId} disabled />
-        <button type='submit' onClick={onLeave}>
-          leave
-        </button>
-        <ul>
-          {users.map((user: IUser) => {
-            return <li key={user.userId}>{user.fullName} - {!user.visibility ? '🟢 online' : '🟡 away'}</li>;
-          })}
-        </ul>
+        <AppBar roomId={String(roomId)} onLeave={onLeave} />
+        <UsersList users={users} />
+        <div>
+          <Card label='1' />
+        </div>
       </div>
     </>
   );
