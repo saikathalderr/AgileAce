@@ -1,4 +1,8 @@
-function UserVisibility({ visibility = false }: { visibility: boolean | undefined }) {
+function UserVisibility({
+  visibility = false,
+}: {
+  visibility: boolean | undefined;
+}) {
   return <span>{!visibility ? '🟢 online' : '🟡 away'}</span>;
 }
 

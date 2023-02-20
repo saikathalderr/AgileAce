@@ -4,55 +4,57 @@ import { useContext, useEffect, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import {
   fetchRoomDataEvent,
-  getRoomDataEvent, joinRoomEvent,
+  getRoomDataEvent,
+  joinRoomEvent,
   leaveRoomEvent,
   toggleUserVisibilityEvent,
   userLeftEvent,
 } from '../events';
 
-import {IRoom, IToggleUserVisibility, IUser} from '../interfaces';
+import { IRoom, IToggleUserVisibility, IUser } from '../interfaces';
 import {
   getUserFromLocalStorage,
-  removeUserFromLocalStorage, storeUserInLocalStorage,
+  removeUserFromLocalStorage,
+  storeUserInLocalStorage,
 } from '../helper';
 import usePageVisibility from '../hooks/usePageVisibility';
 import AppBar from '../components/appBar';
 import UsersList from '../components/usersList';
-import CardList from "../components/cardList";
+import CardList from '../components/cardList';
 
 const Room = () => {
   const navigate = useNavigate();
   const { roomId } = useParams();
   const io: Socket = useContext(SocketContext);
   const [users, setUsers] = useState([]);
-  const [leaving, setLeaving] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  const [leaving, setLeaving] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [localUser, setLocalUser] = useState(
     getUserFromLocalStorage(String(roomId))
   );
   const pageVisibilityStatus = usePageVisibility();
 
   const onLeave = () => {
-    setLeaving(true)
+    setLeaving(true);
     io.emit(leaveRoomEvent, {
       roomId,
       userId: localUser?.userId,
     });
     removeUserFromLocalStorage(String(roomId));
-    setLocalUser(undefined)
+    setLocalUser(undefined);
   };
 
   useEffect(() => {
     return () => {
-      setMounted(true)
-    }
-  }, [])
+      setMounted(true);
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
-      if (leaving || mounted) return
+      if (leaving || mounted) return;
       else if (io.id && !localUser) {
-        const promptAns: string = prompt('Enter you name') || ''
+        const promptAns: string = prompt('Enter you name') || '';
         if (!promptAns || !roomId) return navigate('/');
         const joinRoomArgs: IRoom = {
           fullName: promptAns,
@@ -60,15 +62,15 @@ const Room = () => {
           userId: io.id,
         };
         storeUserInLocalStorage(joinRoomArgs);
-        setLocalUser(joinRoomArgs)
+        setLocalUser(joinRoomArgs);
         io.emit(joinRoomEvent, joinRoomArgs);
       }
-    }
-  }, [io.id])
+    };
+  }, [io.id]);
 
   useEffect(() => {
-    if (leaving && !localUser && mounted) navigate('/')
-  }, [localUser])
+    if (leaving && !localUser && mounted) navigate('/');
+  }, [localUser]);
 
   useEffect(() => {
     io.emit(fetchRoomDataEvent, roomId);
@@ -89,7 +91,7 @@ const Room = () => {
   }, [io]);
 
   useEffect(() => {
-    if (!localUser) return
+    if (!localUser) return;
     const toggleUserVisibilityEventPayload: IToggleUserVisibility = {
       user: localUser,
       visibilityStatus: pageVisibilityStatus,
@@ -105,7 +107,7 @@ const Room = () => {
       <div>
         <AppBar roomId={String(roomId)} onLeave={onLeave} />
         <UsersList users={users} />
-        <CardList/>
+        <CardList />
       </div>
     </>
   );

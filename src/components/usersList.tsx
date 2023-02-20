@@ -1,6 +1,6 @@
 import { IUser } from '../interfaces';
 import UserItem from './userItem';
-import {useEffect} from "react";
+import { useEffect } from 'react';
 
 function UsersList({ users }: { users: IUser[] }) {
   return (
