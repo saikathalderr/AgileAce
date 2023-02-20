@@ -6,9 +6,9 @@ export function storeUserInLocalStorage(payload: IUser) {
   return payload;
 }
 
-export function getUserFromLocalStorage(roomId: string): IUser {
+export function getUserFromLocalStorage(roomId: string): IUser | undefined {
   const data: any = localStorage.getItem(roomId);
-  return JSON.parse(data);
+  return JSON.parse(data) || undefined;
 }
 
 export function removeUserFromLocalStorage(roomId: string) {

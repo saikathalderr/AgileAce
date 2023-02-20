@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 
-export default function Card({ label }: { label: string }) {
+export default function CardItem({ label }: { label: string }) {
   return (
     <motion.button
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.4 }}
       whileTap={{ scale: 0.9 }}
       style={{
         cursor: 'pointer',
