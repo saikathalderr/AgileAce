@@ -11,7 +11,13 @@ import {
   userLeftEvent,
 } from '../events';
 
-import { IRoom, IToggleUserVisibility, IUser } from '../interfaces';
+import {
+  IEstimate,
+  IRoom,
+  IRoomData,
+  IToggleUserVisibility,
+  IUser,
+} from '../interfaces';
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
@@ -26,13 +32,14 @@ const Room = () => {
   const navigate = useNavigate();
   const { roomId } = useParams();
   const io: Socket = useContext(SocketContext);
-  const [users, setUsers] = useState([]);
-  const [leaving, setLeaving] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [leaving, setLeaving] = useState<Boolean>(false);
+  const [mounted, setMounted] = useState<Boolean>(false);
   const [localUser, setLocalUser] = useState(
     getUserFromLocalStorage(String(roomId))
   );
   const pageVisibilityStatus = usePageVisibility();
+  const [estimates, setEstimates] = useState<IEstimate[]>([]);
 
   const onLeave = () => {
     setLeaving(true);
@@ -73,20 +80,31 @@ const Room = () => {
   }, [localUser]);
 
   useEffect(() => {
-    io.emit(fetchRoomDataEvent, roomId);
+    io.emit(fetchRoomDataEvent, { roomId });
+    return () => {
+      io.off(fetchRoomDataEvent);
+    };
   }, [roomId, users]);
 
   useEffect(() => {
-    io.on(getRoomDataEvent, (payload) => {
-      setUsers(payload.users);
+    io.on(getRoomDataEvent, (payload: IRoomData) => {
+      const { users, estimates } = payload;
+      setUsers(users);
+      setEstimates(estimates);
     });
-  }, [io]);
+
+    return () => {
+      io.off(getRoomDataEvent);
+    };
+  }, [io, users, estimates]);
 
   useEffect(() => {
+    io.on(userLeftEvent, (payload) => {
+      console.log(payload);
+    });
+
     return () => {
-      io.on(userLeftEvent, (payload) => {
-        console.log(payload);
-      });
+      io.off(userLeftEvent);
     };
   }, [io]);
 
@@ -102,12 +120,22 @@ const Room = () => {
     );
   }, [pageVisibilityStatus]);
 
+  if (!io || !localUser) return <div>Loading....</div>;
+
   return (
     <>
       <div>
         <AppBar roomId={String(roomId)} onLeave={onLeave} />
-        <UsersList users={users} />
-        <CardList />
+        <UsersList
+          users={users}
+          roomId={String(roomId)}
+          estimates={estimates}
+        />
+        <CardList
+          userId={localUser?.userId}
+          roomId={String(roomId)}
+          estimates={estimates}
+        />
       </div>
     </>
   );

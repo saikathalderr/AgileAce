@@ -15,6 +15,9 @@ export default function Button({
       whileTap={{ scale: 0.9 }}
       onClick={handleClick}
       type={type}
+      style={{
+        cursor: 'pointer',
+      }}
     >
       {label}
     </motion.button>
