@@ -61,16 +61,17 @@ const Room = () => {
     return () => {
       if (leaving || mounted) return;
       else if (io.id && !localUser) {
-        const promptAns: string = prompt('Enter you name') || '';
-        if (!promptAns || !roomId) return navigate('/');
-        const joinRoomArgs: IRoom = {
-          fullName: promptAns,
-          roomId: roomId,
-          userId: io.id,
-        };
-        storeUserInLocalStorage(joinRoomArgs);
-        setLocalUser(joinRoomArgs);
-        io.emit(joinRoomEvent, joinRoomArgs);
+        navigate(`/join-room?roomId=${roomId}`)
+        // const promptAns: string = prompt('Enter you name') || '';
+        // if (!promptAns || !roomId) return navigate('/');
+        // const joinRoomArgs: IRoom = {
+        //   fullName: promptAns,
+        //   roomId: roomId,
+        //   userId: io.id,
+        // };
+        // storeUserInLocalStorage(joinRoomArgs);
+        // setLocalUser(joinRoomArgs);
+        // io.emit(joinRoomEvent, joinRoomArgs);
       }
     };
   }, [io.id]);

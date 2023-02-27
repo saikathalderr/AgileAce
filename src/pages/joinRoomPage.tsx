@@ -31,7 +31,7 @@ function JoinRoomPage() {
           sx={{
             width: '100%',
             height: '100vh',
-            backgroundColor: '#F2F7FC',
+            backgroundColor: '#FFF',
             position: 'relative',
           }}
         >
