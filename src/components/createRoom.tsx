@@ -12,11 +12,13 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  Stack,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import { AccountCircle } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import BackButton from './BackButton';
+import HomeButton from './HomeButton';
 
 function CreateRoom() {
   const navigate = useNavigate();
@@ -48,7 +50,10 @@ function CreateRoom() {
         }}
       >
         <Box sx={{ mb: 5 }}>
-          <BackButton />
+          <Stack spacing={1} direction='row'>
+            <BackButton />
+            <HomeButton />
+          </Stack>
         </Box>
 
         <Typography variant='h5' gutterBottom>

@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 import CreateRoomPage from './pages/createRoomPage';
 import JoinRoomPage from './pages/joinRoomPage';
+import Footer from './components/footer';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,7 @@ ReactDOM.createRoot(
   <React.StrictMode>
     <SocketProver value={socket}>
       <RouterProvider router={router} />
+      <Footer />
     </SocketProver>
   </React.StrictMode>
 );

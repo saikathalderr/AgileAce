@@ -1,23 +1,23 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { Home } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-function BackButton() {
+function HomeButton() {
   const navigate = useNavigate();
 
   return (
-    <Tooltip title='Back' placement='top'>
+    <Tooltip title='Home' placement='top'>
       <IconButton
         aria-label='delete'
         size='large'
         color='primary'
-        onClick={() => navigate(-1)}
+        onClick={() => navigate('/')}
       >
-        <ArrowBack />
+        <Home />
       </IconButton>
     </Tooltip>
   );
 }
 
-export default BackButton;
+export default HomeButton;

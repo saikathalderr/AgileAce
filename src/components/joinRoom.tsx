@@ -14,11 +14,13 @@ import {
   Chip,
   Divider,
   InputAdornment,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { AccountCircle, Key } from '@mui/icons-material';
 import Button from '@mui/material/Button';
+import HomeButton from './HomeButton';
 
 function JoinRoom() {
   const [searchParams] = useSearchParams();
@@ -65,7 +67,10 @@ function JoinRoom() {
         }}
       >
         <Box sx={{ mb: 5 }}>
-          <BackButton />
+          <Stack spacing={1} direction='row'>
+            <BackButton />
+            <HomeButton />
+          </Stack>
         </Box>
 
         <Typography variant='h5' gutterBottom>
