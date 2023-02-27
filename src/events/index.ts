@@ -9,4 +9,4 @@ export const giveEstimateEvent = 'giveEstimate';
 export const toggleEstimateVisibilityEvent =
   'toggleEstimateVisibility';
 
-export const resetEstimatesEvent = 'resetEstimates'
+export const resetEstimatesEvent = 'resetEstimates';

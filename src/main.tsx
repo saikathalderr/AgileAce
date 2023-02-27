@@ -9,6 +9,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
+import CreateRoomPage from './pages/createRoomPage';
+import JoinRoomPage from './pages/joinRoomPage';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +20,14 @@ const router = createBrowserRouter([
   {
     path: 'room/:roomId',
     element: <Room />,
+  },
+  {
+    path: 'create-room',
+    element: <CreateRoomPage />,
+  },
+  {
+    path: 'join-room',
+    element: <JoinRoomPage />,
   },
 ]);
 

@@ -1,10 +1,13 @@
 import CardItem from './cardItem';
-import { IEstimate, IUser } from '../interfaces';
+import { IEstimate } from '../interfaces';
 import Button from './button';
 import { Socket } from 'socket.io-client';
 import { useContext } from 'react';
 import SocketContext from '../context/socket';
-import {resetEstimatesEvent, toggleEstimateVisibilityEvent} from '../events';
+import {
+  resetEstimatesEvent,
+  toggleEstimateVisibilityEvent,
+} from '../events';
 
 function CardList({
   userId,
@@ -44,8 +47,8 @@ function CardList({
   };
 
   const onReset = () => {
-    io.emit(resetEstimatesEvent, { roomId })
-  }
+    io.emit(resetEstimatesEvent, { roomId });
+  };
   return (
     <>
       <div>

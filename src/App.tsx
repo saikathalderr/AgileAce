@@ -1,13 +1,21 @@
-import CreateRoom from './components/createRoom';
-import JoinRoom from './components/joinRoom';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
-function App(props: any) {
+function App() {
   return (
-    <div>
-      <CreateRoom />
-      <hr />
-      <JoinRoom />
-    </div>
+    <Stack spacing={2} direction='row'>
+      <Link to='create-room'>
+        <Button variant='contained' color='primary'>
+          Create
+        </Button>
+      </Link>
+      <Link to='join-room'>
+        <Button variant='contained' color='success'>
+          Join
+        </Button>
+      </Link>
+    </Stack>
   );
 }
 
