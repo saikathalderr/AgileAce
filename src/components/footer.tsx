@@ -40,7 +40,9 @@ function Footer() {
           href='https://github.com/saikathalderr/plan-it-pocker-lb'
           target='_blank'
         >
-          GitHub <GitHub sx={{ fontSize: 13 }} />
+          <b>
+            GitHub <GitHub sx={{ fontSize: 13 }} />
+          </b>
         </a>
       </Typography>
     </Box>

@@ -26,7 +26,7 @@ export interface IEstimate {
   estimate: string;
   roomId: string;
   userId: string;
-  show: Boolean;
+  show?: Boolean;
 }
 
 export interface IRoomData {

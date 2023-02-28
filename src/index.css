@@ -12,3 +12,52 @@ a {
 * {
   outline: none;
 }
+
+.card-wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  align-items: center;
+  background: #fafafa;
+  border: 4px solid #ccc;
+  border-bottom-width: 3px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px 1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex: 0 0 auto;
+  font-size: 2em;
+  font-weight: bold;
+  justify-content: center;
+  position: relative;
+  height: 100px;
+  width: 70px;
+  margin: 5px;
+  cursor: pointer;
+}
+.card.active {
+  background: #1976D2;
+  border: 4px solid #004386;
+  color: #fff !important;
+  box-shadow: 0 5px 10px 1px rgba(0, 67, 134, 0.58);
+}
+.card:nth-child(even) {
+  color: #e8282d;
+}
+.card::after,
+.card::before {
+  content: 'A';
+  font-size: 0.3em;
+  position: absolute;
+}
+.card::after {
+  left: 8px;
+  top: 8px;
+}
+.card::before {
+  bottom: 8px;
+  right: 8px;
+  transform: rotate(180deg);
+}

@@ -30,19 +30,13 @@ export default function CardItem({
   };
 
   return (
-    <motion.button
-      whileHover={{ scale: 1.4 }}
+    <motion.div
+      whileHover={{ translateY: -30 }}
       whileTap={{ scale: 0.9 }}
-      style={{
-        border: '1px solid #000',
-        cursor: 'pointer',
-        width: 50,
-        height: 50,
-        background: active ? 'rgba(60, 179, 113)' : '',
-      }}
+      className={active ? 'card active' : 'card'}
       onClick={() => giveEstimate(label)}
     >
-      <b>{label}</b>
-    </motion.button>
+      {label}
+    </motion.div>
   );
 }

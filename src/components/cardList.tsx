@@ -33,8 +33,6 @@ function CardList({
     '40',
     '100',
     '?',
-    '∞',
-    '☊',
   ];
   const isCardActive = (estimate: string): Boolean => {
     return !!estimates.find(
@@ -55,11 +53,7 @@ function CardList({
         <Button label={'Show'} handleClick={onShow} />
         <Button label={'Reset'} handleClick={onReset} />
       </div>
-      <div
-        style={{
-          width: '350px',
-        }}
-      >
+      <div className='card-wrapper'>
         {cardsArray.map((card: string, idx: number) => (
           <CardItem
             key={card + idx + 1}

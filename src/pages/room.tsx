@@ -61,7 +61,7 @@ const Room = () => {
     return () => {
       if (leaving || mounted) return;
       else if (io.id && !localUser) {
-        navigate(`/join-room?roomId=${roomId}`)
+        navigate(`/join-room?roomId=${roomId}`);
         // const promptAns: string = prompt('Enter you name') || '';
         // if (!promptAns || !roomId) return navigate('/');
         // const joinRoomArgs: IRoom = {
