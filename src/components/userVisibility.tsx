@@ -3,7 +3,9 @@ function UserVisibility({
 }: {
   visibility: boolean | undefined;
 }) {
-  return <small>{!visibility ? '🟢' : '🟡'}</small>;
+  return (
+    <small>{!visibility ? <b>🟢 Online</b> : <b>🟡 Away</b>}</small>
+  );
 }
 
 export default UserVisibility;

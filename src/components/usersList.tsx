@@ -1,6 +1,15 @@
 import { IEstimate, IUser } from '../interfaces';
 import UserItem from './userItem';
-import { useEffect } from 'react';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 
 function UsersList({
   users,
@@ -29,20 +38,46 @@ function UsersList({
     );
   }
   return (
-    <ul>
-      {users.map((user: IUser) => {
-        return (
-          <UserItem
-            key={user.userId}
-            user={user}
-            hasEstimated={
-              !!checkEstimationStatus({ userId: user.userId })
-            }
-            userEstimate={getUserEstimate({ userId: user.userId })}
-          />
-        );
-      })}
-    </ul>
+    <div>
+      <Typography variant='h5'>
+        <b>Users</b>
+      </Typography>
+      <TableContainer component={Paper} sx={{ my: 2 }}>
+        <Table aria-label='Users Table'>
+          <TableHead
+            sx={{ minHeight: 50, maxHeight: 50, height: 50 }}
+          >
+            <TableRow>
+              <TableCell>
+                <b>Users</b>
+              </TableCell>
+              <TableCell>
+                <b>Status</b>
+              </TableCell>
+              <TableCell>
+                <b>Estimate</b>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user: IUser) => {
+              return (
+                <UserItem
+                  key={user.userId}
+                  user={user}
+                  hasEstimated={
+                    !!checkEstimationStatus({ userId: user.userId })
+                  }
+                  userEstimate={getUserEstimate({
+                    userId: user.userId,
+                  })}
+                />
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
 

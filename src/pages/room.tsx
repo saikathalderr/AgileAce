@@ -24,9 +24,10 @@ import {
   storeUserInLocalStorage,
 } from '../helper';
 import usePageVisibility from '../hooks/usePageVisibility';
-import AppBar from '../components/appBar';
+import Header from '../components/header';
 import UsersList from '../components/usersList';
 import CardList from '../components/cardList';
+import { Box, Container } from '@mui/material';
 
 const Room = () => {
   const navigate = useNavigate();
@@ -62,16 +63,6 @@ const Room = () => {
       if (leaving || mounted) return;
       else if (io.id && !localUser) {
         navigate(`/join-room?roomId=${roomId}`);
-        // const promptAns: string = prompt('Enter you name') || '';
-        // if (!promptAns || !roomId) return navigate('/');
-        // const joinRoomArgs: IRoom = {
-        //   fullName: promptAns,
-        //   roomId: roomId,
-        //   userId: io.id,
-        // };
-        // storeUserInLocalStorage(joinRoomArgs);
-        // setLocalUser(joinRoomArgs);
-        // io.emit(joinRoomEvent, joinRoomArgs);
       }
     };
   }, [io.id]);
@@ -125,19 +116,23 @@ const Room = () => {
 
   return (
     <>
-      <div>
-        <AppBar roomId={String(roomId)} onLeave={onLeave} />
-        <UsersList
-          users={users}
-          roomId={String(roomId)}
-          estimates={estimates}
-        />
-        <CardList
-          userId={localUser?.userId}
-          roomId={String(roomId)}
-          estimates={estimates}
-        />
-      </div>
+      <Container sx={{ width: '1080px', pb: 10 }}>
+        <Box>
+          <Header roomId={String(roomId)} onLeave={onLeave} />
+
+          <CardList
+            userId={localUser?.userId}
+            roomId={String(roomId)}
+            estimates={estimates}
+          />
+
+          <UsersList
+            users={users}
+            roomId={String(roomId)}
+            estimates={estimates}
+          />
+        </Box>
+      </Container>
     </>
   );
 };

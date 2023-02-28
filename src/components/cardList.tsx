@@ -1,6 +1,5 @@
 import CardItem from './cardItem';
 import { IEstimate } from '../interfaces';
-import Button from './button';
 import { Socket } from 'socket.io-client';
 import { useContext } from 'react';
 import SocketContext from '../context/socket';
@@ -8,6 +7,8 @@ import {
   resetEstimatesEvent,
   toggleEstimateVisibilityEvent,
 } from '../events';
+import { Button, Divider, Stack } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 
 function CardList({
   userId,
@@ -49,10 +50,6 @@ function CardList({
   };
   return (
     <>
-      <div>
-        <Button label={'Show'} handleClick={onShow} />
-        <Button label={'Reset'} handleClick={onReset} />
-      </div>
       <div className='card-wrapper'>
         {cardsArray.map((card: string, idx: number) => (
           <CardItem
@@ -62,6 +59,28 @@ function CardList({
           />
         ))}
       </div>
+
+      <Divider sx={{ my: 5 }} />
+
+      <Stack
+        spacing={1}
+        direction='row'
+        alignItems='center'
+        justifyContent='flex-end'
+        divider={<Divider orientation='vertical' flexItem />}
+      >
+        <Button variant='contained' onClick={onShow}>
+          Show
+        </Button>
+        <Button
+          variant='contained'
+          color='error'
+          onClick={onReset}
+          endIcon={<Delete />}
+        >
+          Reset
+        </Button>
+      </Stack>
     </>
   );
 }

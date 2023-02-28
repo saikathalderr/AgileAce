@@ -1,5 +1,6 @@
 import { IEstimate, IUser } from '../interfaces';
 import UserVisibility from './userVisibility';
+import { TableCell, TableRow } from '@mui/material';
 
 function userItem({
   user,
@@ -11,16 +12,21 @@ function userItem({
   hasEstimated: Boolean;
 }) {
   return (
-    <li>
-      <UserVisibility visibility={user.visibility} /> {user.fullName}{' '}
-      <span>
-        {userEstimate?.show
-          ? userEstimate.estimate
-          : hasEstimated
-          ? '✔'
-          : ''}
-      </span>
-    </li>
+    <TableRow sx={{ minHeight: 50, maxHeight: 50, height: 50 }}>
+      <TableCell> {user.fullName} </TableCell>
+      <TableCell>
+        <UserVisibility visibility={user.visibility} />
+      </TableCell>
+      <TableCell sx={{ pl: 4 }}>
+        {userEstimate?.show ? (
+          <div className='small-card'>{userEstimate.estimate}</div>
+        ) : hasEstimated ? (
+          <div className='small-card active'></div>
+        ) : (
+          <div className='small-card'>-</div>
+        )}
+      </TableCell>
+    </TableRow>
   );
 }
 

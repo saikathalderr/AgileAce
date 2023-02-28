@@ -29,7 +29,15 @@ function App() {
               }}
             >
               <div>
-                <Typography variant='h3' gutterBottom>
+                <Typography
+                  variant='h3'
+                  component='div'
+                  sx={{ flexGrow: 1, color: 'primary.main' }}
+                >
+                  <b>AgileAce</b>
+                </Typography>
+
+                <Typography variant='h3' gutterBottom sx={{ my: 3 }}>
                   <b>
                     Scrum Poker for <br /> agile development <br />{' '}
                     teams
