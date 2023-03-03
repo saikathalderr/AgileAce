@@ -20,7 +20,6 @@ function App() {
             }}
           >
             <Grid
-              xs
               display='flex'
               justifyContent='end'
               alignItems='center'
@@ -34,7 +33,7 @@ function App() {
                   component='div'
                   sx={{ flexGrow: 1, color: 'primary.main' }}
                 >
-                  <b>AgileAce</b>
+                  <b data-test-id='appName'>AgileAce</b>
                 </Typography>
 
                 <Typography variant='h3' gutterBottom sx={{ my: 3 }}>
@@ -82,7 +81,6 @@ function App() {
             }}
           >
             <Grid
-              xs
               display='flex'
               justifyContent='start'
               alignItems='center'

@@ -9,7 +9,7 @@ import {
   storeUserInLocalStorage,
 } from '../helper';
 import Box from '@mui/material/Box';
-import BackButton from './BackButton';
+import BackButton from './backButton';
 import {
   Chip,
   Divider,
@@ -20,7 +20,7 @@ import {
 } from '@mui/material';
 import { AccountCircle, Key } from '@mui/icons-material';
 import Button from '@mui/material/Button';
-import HomeButton from './HomeButton';
+import HomeButton from './homeButton';
 
 function JoinRoom() {
   const [searchParams] = useSearchParams();

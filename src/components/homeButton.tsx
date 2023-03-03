@@ -13,8 +13,9 @@ function HomeButton() {
         size='large'
         color='primary'
         onClick={() => navigate('/')}
+        data-testid='homeButton'
       >
-        <Home />
+        <Home data-testid='homeIcon' />
       </IconButton>
     </Tooltip>
   );

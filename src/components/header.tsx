@@ -9,7 +9,7 @@ import {
   Snackbar,
 } from '@mui/material';
 import { Close, Logout, Menu, Share } from '@mui/icons-material';
-import HomeButton from './HomeButton';
+import HomeButton from './homeButton';
 import { SyntheticEvent, useState } from 'react';
 
 function Header({

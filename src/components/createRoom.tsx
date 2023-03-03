@@ -17,8 +17,8 @@ import {
 import Box from '@mui/material/Box';
 import { AccountCircle } from '@mui/icons-material';
 import Button from '@mui/material/Button';
-import BackButton from './BackButton';
-import HomeButton from './HomeButton';
+import BackButton from './backButton';
+import HomeButton from './homeButton';
 
 function CreateRoom() {
   const navigate = useNavigate();
