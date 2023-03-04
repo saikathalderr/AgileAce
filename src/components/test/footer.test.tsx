@@ -7,7 +7,7 @@ describe('footer.tsx', () => {
     render(<Footer />);
 
     expect(screen.getByRole('heading')).toHaveTextContent(
-      'Made with React, TypeScript, Socket.io & ❤️ by Saikat Halder - available on GitHub'
+      'Made with React, TypeScript, Socket.io & ❤️ by Saikat Halder - available on GitHubbbb'
     );
   });
 });
