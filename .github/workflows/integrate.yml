@@ -1,4 +1,4 @@
-name: AgileAce Continuous Integration (CI)
+name: AgileAce Continuous Integration & Continuous Delivery (CI/CD)
 
 on:
   pull_request:
@@ -16,6 +16,4 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm test
-      - name: Code Coverage Summary
-        uses: irongut/CodeCoverageSummary@v1.3.0
       - run: npm run build
