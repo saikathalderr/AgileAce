@@ -1,23 +1,29 @@
 import {
   fireEvent,
-  render,
-  screen,
-  waitFor,
+  render
 } from '@testing-library/react';
 import HomeButton from '../homeButton';
 import { describe, vi } from 'vitest';
-import { useNavigate } from 'react-router-dom';
 
-vi.mock('react-router-dom', async () => {
-  return {
-    ...vi.importMock('react-router-dom'),
-    useNavigate: vi.fn(),
-  };
-});
+const mockUseNavigate = vi.fn();
+vi.mock('react-router-dom', () => ({
+  useNavigate: () => mockUseNavigate,
+}));
+
 describe('homeButton.tsx', async () => {
-  render(<HomeButton />);
-  test('Back button & icon is present', () => {
-    expect(screen.getByTestId('homeButton')).toBeTruthy();
-    expect(screen.getByTestId('homeIcon')).toBeTruthy();
+  test('Should render Back button & icon is present', () => {
+    const { getByTestId } = render(<HomeButton />);
+    expect(getByTestId('homeButton')).toBeInTheDocument();
+    expect(getByTestId('homeIcon')).toBeInTheDocument();
+  });
+
+  test('clicking the button triggers navigation', () => {
+    const { getByTestId } = render(<HomeButton />);
+
+    const homeButton = getByTestId('homeButton');
+    fireEvent.click(homeButton);
+
+    expect(mockUseNavigate).toHaveBeenCalledTimes(1);
+    expect(mockUseNavigate).toHaveBeenCalledWith('/');
   });
 });
