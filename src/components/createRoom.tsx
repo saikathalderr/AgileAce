@@ -49,14 +49,18 @@ function CreateRoom() {
           pb: 3,
         }}
       >
-        <Box sx={{ mb: 5 }}>
+        <Box sx={{ mb: 5 }} data-testid='actionsContainer'>
           <Stack spacing={1} direction='row'>
             <BackButton />
             <HomeButton />
           </Stack>
         </Box>
 
-        <Typography variant='h5' gutterBottom>
+        <Typography
+          variant='h5'
+          gutterBottom
+          data-testid='headingText'
+        >
           <b>Create </b>
           <Typography variant='subtitle1'>
             A new poker room & join with your team
@@ -70,9 +74,16 @@ function CreateRoom() {
           margin='normal'
           variant='outlined'
           autoComplete='off'
+          data-testid='fullNameInput'
           placeholder='Enter your name.'
           error={!!error.length}
-          helperText={!!error.length ? error : ''}
+          helperText={
+            !!error.length ? (
+              <span data-testid='errorText'>{error}</span>
+            ) : (
+              ''
+            )
+          }
           onChange={(event) => {
             setFullName(event.target.value.trim());
             setError('');
@@ -92,19 +103,21 @@ function CreateRoom() {
             onClick={onCreate}
             variant='contained'
             disabled={!!error.length}
+            data-testid='createButton'
           >
             Create
           </Button>
         </div>
       </Box>
-      <Divider>
-        <Chip label='Or' />
+      <Divider data-testid='divider'>
+        <Chip label='Or' data-testid='orChip' />
       </Divider>
       <Box
         sx={{
           width: '100%',
           pt: 3,
         }}
+        data-testid='joinButtonContainer'
       >
         <Button
           variant='text'

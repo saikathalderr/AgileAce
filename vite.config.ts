@@ -19,7 +19,12 @@ export default defineConfig({
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
       reportsDirectory: './src/tests/unit/coverage',
-      exclude: ['node_modules/**', 'dist/**', 'public/**', '**/mock/**'],
+      exclude: [
+        'node_modules/**',
+        'dist/**',
+        'public/**',
+        '**/mock/**',
+      ],
     },
   },
 } as VitestConfigExport);

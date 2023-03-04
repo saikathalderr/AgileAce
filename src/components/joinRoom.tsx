@@ -37,8 +37,9 @@ function JoinRoom() {
   const navigate = useNavigate();
 
   const onJoin = () => {
-    if (!fullName) return setNameError('Name is missing!');
-    if (!roomId) return setRoomIdError('Room id is missing!');
+    if (!fullName) setNameError('Name is missing!');
+    if (!roomId) setRoomIdError('Room id is missing!');
+    if (!fullName || !roomId) return
 
     const joinRoomArgs: IRoom = {
       fullName,
@@ -66,14 +67,18 @@ function JoinRoom() {
           pb: 3,
         }}
       >
-        <Box sx={{ mb: 5 }}>
+        <Box sx={{ mb: 5 }} data-testid='actionsContainer'>
           <Stack spacing={1} direction='row'>
             <BackButton />
             <HomeButton />
           </Stack>
         </Box>
 
-        <Typography variant='h5' gutterBottom>
+        <Typography
+          variant='h5'
+          gutterBottom
+          data-testid='headingText'
+        >
           <b>Join </b>
           <Typography variant='subtitle1'>
             the poker room with your team
@@ -89,8 +94,15 @@ function JoinRoom() {
           autoComplete='off'
           variant='outlined'
           placeholder='Enter your name.'
+          data-testid='fullNameInput'
           error={!!nameError.length}
-          helperText={!!nameError.length ? nameError : ''}
+          helperText={
+            !!nameError.length ? (
+              <span data-testid='nameErrorText'>{nameError}</span>
+            ) : (
+              ''
+            )
+          }
           onChange={(event) => {
             setFullName(event.target.value.trim());
             setNameError('');
@@ -113,11 +125,18 @@ function JoinRoom() {
           margin='normal'
           variant='outlined'
           autoComplete='off'
+          defaultValue={roomId}
+          data-testid='roomIdInput'
           placeholder='Enter room id'
           disabled={isRoomIdPreFilled}
-          defaultValue={roomId}
           error={!!roomIdError.length}
-          helperText={!!roomIdError.length ? roomIdError : ''}
+          helperText={
+            !!roomIdError.length ? (
+              <span data-testid='roomIdErrorText'>{roomIdError}</span>
+            ) : (
+              ''
+            )
+          }
           onChange={(event) => {
             setRoomId(event.target.value.trim());
             setRoomIdError('');
@@ -137,20 +156,22 @@ function JoinRoom() {
           <Button
             onClick={onJoin}
             variant='contained'
+            data-testid='joinButton'
             disabled={!!roomIdError.length || !!nameError.length}
           >
             Join
           </Button>
         </div>
       </Box>
-      <Divider>
-        <Chip label='Or' />
+      <Divider data-testid='divider'>
+        <Chip label='Or' data-testid='orChip' />
       </Divider>
       <Box
         sx={{
           width: '100%',
           pt: 3,
         }}
+        data-testid='createButtonContainer'
       >
         <Button
           variant='text'
