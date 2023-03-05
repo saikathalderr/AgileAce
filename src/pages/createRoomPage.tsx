@@ -16,8 +16,9 @@ function CreateRoomPage() {
           <Grid
             xs
             display='flex'
-            justifyContent='center'
             alignItems='center'
+            justifyContent='center'
+            data-testid='createRoomContainer'
             style={{
               height: '100%',
             }}
@@ -34,6 +35,7 @@ function CreateRoomPage() {
             backgroundColor: '#F2F7FC',
             position: 'relative',
           }}
+          data-testid='animationContainer'
         >
           <Player
             autoplay

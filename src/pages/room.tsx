@@ -5,7 +5,6 @@ import { Socket } from 'socket.io-client';
 import {
   fetchRoomDataEvent,
   getRoomDataEvent,
-  joinRoomEvent,
   leaveRoomEvent,
   toggleUserVisibilityEvent,
   userLeftEvent,
@@ -13,7 +12,6 @@ import {
 
 import {
   IEstimate,
-  IRoom,
   IRoomData,
   IToggleUserVisibility,
   IUser,
@@ -21,7 +19,6 @@ import {
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
-  storeUserInLocalStorage,
 } from '../helper';
 import usePageVisibility from '../hooks/usePageVisibility';
 import Header from '../components/header';
@@ -112,21 +109,31 @@ const Room = () => {
     );
   }, [pageVisibilityStatus]);
 
-  if (!io || !localUser) return <div>Loading....</div>;
+  if (!io || !localUser)
+    return <div data-testid='loading'>Loading....</div>;
 
   return (
     <>
-      <Container sx={{ width: '1080px', pb: 10 }}>
+      <Container
+        sx={{ width: '1080px', pb: 10 }}
+        data-testid='roomPageContainer'
+      >
         <Box>
-          <Header roomId={String(roomId)} onLeave={onLeave} />
+          <Header
+            roomId={String(roomId)}
+            onLeave={onLeave}
+            data-testid={'roomHeader'}
+          />
 
           <CardList
+            data-testid={'roomCardList'}
             userId={localUser?.userId}
             roomId={String(roomId)}
             estimates={estimates}
           />
 
           <UsersList
+            data-testid={'roomUsersList'}
             users={users}
             roomId={String(roomId)}
             estimates={estimates}

@@ -1,7 +1,4 @@
-import {
-  fireEvent,
-  render
-} from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import BackButton from '../backButton';
 import { describe, vi } from 'vitest';
 

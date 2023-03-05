@@ -39,7 +39,7 @@ function JoinRoom() {
   const onJoin = () => {
     if (!fullName) setNameError('Name is missing!');
     if (!roomId) setRoomIdError('Room id is missing!');
-    if (!fullName || !roomId) return
+    if (!fullName || !roomId) return;
 
     const joinRoomArgs: IRoom = {
       fullName,

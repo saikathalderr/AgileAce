@@ -1,7 +1,4 @@
-import {
-  fireEvent,
-  render
-} from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import HomeButton from '../homeButton';
 import { describe, vi } from 'vitest';
 
