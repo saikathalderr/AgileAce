@@ -1,8 +1,11 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react';
 import { describe } from 'vitest';
 import JoinRoom from '../joinRoom';
 import { vi } from 'vitest';
-
 
 vi.mock('react-router-dom', async () => {
   return {
@@ -12,7 +15,6 @@ vi.mock('react-router-dom', async () => {
     Link: vi.fn(),
   };
 });
-
 
 describe('joinRoom.tsx', () => {
   test('Should and display right content', () => {
@@ -34,9 +36,9 @@ describe('joinRoom.tsx', () => {
   test('Should return name error if no name passed', async () => {
     render(<JoinRoom />);
 
-    const joinButton = screen.getByTestId('joinButton')
+    const joinButton = screen.getByTestId('joinButton');
 
     fireEvent.click(joinButton);
-    expect(screen.getByTestId('nameErrorText')).toBeInTheDocument()
-  })
+    expect(screen.getByTestId('nameErrorText')).toBeInTheDocument();
+  });
 });

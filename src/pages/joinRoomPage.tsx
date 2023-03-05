@@ -21,6 +21,7 @@ function JoinRoomPage() {
             style={{
               height: '100%',
             }}
+            data-testid='joinRoomContainer'
           >
             <JoinRoom />
           </Grid>
@@ -34,6 +35,7 @@ function JoinRoomPage() {
             backgroundColor: '#FFF',
             position: 'relative',
           }}
+          data-testid='animationContainer'
         >
           <Player
             autoplay
