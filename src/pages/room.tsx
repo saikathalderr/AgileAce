@@ -52,6 +52,7 @@ const Room = () => {
   useEffect(() => {
     return () => {
       setMounted(true);
+      io.emit(fetchRoomDataEvent, { roomId })
     };
   }, []);
 
@@ -69,23 +70,15 @@ const Room = () => {
   }, [localUser]);
 
   useEffect(() => {
-    io.emit(fetchRoomDataEvent, { roomId });
-    return () => {
-      io.off(fetchRoomDataEvent);
-    };
-  }, [roomId, users]);
-
-  useEffect(() => {
     io.on(getRoomDataEvent, (payload: IRoomData) => {
       const { users, estimates } = payload;
       setUsers(users);
       setEstimates(estimates);
     });
-
     return () => {
       io.off(getRoomDataEvent);
     };
-  }, [io, users, estimates]);
+  }, [io]);
 
   useEffect(() => {
     io.on(userLeftEvent, (payload) => {

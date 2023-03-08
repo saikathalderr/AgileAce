@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import SocketContext from '../context/socket';
 import { getUserFromLocalStorage } from '../helper';
 import { IEstimate } from '../interfaces';
-import { giveEstimateEvent } from '../events';
+import { giveEstimateEvent} from '../events';
 
 export default function CardItem({
   label,
