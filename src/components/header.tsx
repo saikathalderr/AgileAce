@@ -7,8 +7,9 @@ import {
   Tooltip,
   Stack,
   Snackbar,
+  Alert,
 } from '@mui/material';
-import { Close, Logout, Menu, Share } from '@mui/icons-material';
+import { Close, Logout, Share } from '@mui/icons-material';
 import HomeButton from './homeButton';
 import { SyntheticEvent, useState } from 'react';
 
@@ -93,12 +94,14 @@ function Header({
         </Toolbar>
       </AppBar>
       <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={linkCopied}
         onClose={handleLinkCopySnakeBarClose}
         autoHideDuration={6000}
-        message='Link copied!'
         action={snakeBarAction}
-      />
+      >
+        <Alert severity='info'>Link copied!</Alert>
+      </Snackbar>
     </>
   );
 }

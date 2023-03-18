@@ -1,8 +1,4 @@
-import {
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe } from 'vitest';
 import JoinRoom from '../joinRoom';
 import { vi } from 'vitest';

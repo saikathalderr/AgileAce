@@ -1,9 +1,6 @@
-import SocketContext from '../context/socket';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { Socket } from 'socket.io-client';
+import { useEffect, useState } from 'react';
 import {
-  fetchRoomDataEvent,
   getRoomDataEvent,
   leaveRoomEvent,
   toggleUserVisibilityEvent,
@@ -17,6 +14,7 @@ import {
   IUser,
 } from '../interfaces';
 import {
+  exitAlert,
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
 } from '../helper';
@@ -24,15 +22,19 @@ import usePageVisibility from '../hooks/usePageVisibility';
 import Header from '../components/header';
 import UsersList from '../components/usersList';
 import CardList from '../components/cardList';
-import { Box, Container } from '@mui/material';
+import { Alert, Box, Container, Snackbar } from '@mui/material';
+import { socket } from '../context/socket';
+import { Socket } from 'socket.io-client';
 
 const Room = () => {
+  const io: Socket = socket;
   const navigate = useNavigate();
   const { roomId } = useParams();
-  const io: Socket = useContext(SocketContext);
   const [users, setUsers] = useState<IUser[]>([]);
-  const [leaving, setLeaving] = useState<Boolean>(false);
-  const [mounted, setMounted] = useState<Boolean>(false);
+  const [leaving, setLeaving] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
+  const [userLeft, setUserLeft] = useState<boolean>(false);
+  const [userLeftMessage, setUserLeftMessage] = useState<string>('');
   const [localUser, setLocalUser] = useState(
     getUserFromLocalStorage(String(roomId))
   );
@@ -52,14 +54,13 @@ const Room = () => {
   useEffect(() => {
     return () => {
       setMounted(true);
-      io.emit(fetchRoomDataEvent, { roomId })
     };
   }, []);
 
   useEffect(() => {
     return () => {
       if (leaving || mounted) return;
-      else if (io.id && !localUser) {
+      else if (!localUser) {
         navigate(`/join-room?roomId=${roomId}`);
       }
     };
@@ -70,22 +71,25 @@ const Room = () => {
   }, [localUser]);
 
   useEffect(() => {
+    window.addEventListener('beforeunload', exitAlert);
+    return () => {
+      window.removeEventListener("beforeunload", exitAlert);
+    };
+  }, []);
+
+  useEffect(() => {
     io.on(getRoomDataEvent, (payload: IRoomData) => {
+      console.log('getRoomDataEvent triggered');
       const { users, estimates } = payload;
       setUsers(users);
       setEstimates(estimates);
     });
+    io.on(userLeftEvent, (payload: string) => {
+      setUserLeft(true);
+      setUserLeftMessage(payload);
+    });
     return () => {
       io.off(getRoomDataEvent);
-    };
-  }, [io]);
-
-  useEffect(() => {
-    io.on(userLeftEvent, (payload) => {
-      console.log(payload);
-    });
-
-    return () => {
       io.off(userLeftEvent);
     };
   }, [io]);
@@ -132,6 +136,13 @@ const Room = () => {
             estimates={estimates}
           />
         </Box>
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={userLeft}
+          autoHideDuration={1000}
+        >
+          <Alert severity='info'>{userLeftMessage}</Alert>
+        </Snackbar>
       </Container>
     </>
   );

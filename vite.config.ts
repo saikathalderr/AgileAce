@@ -1,8 +1,8 @@
 // <reference types="vitest" />
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import type { InlineConfig } from 'vitest';
+import { defineConfig } from 'vite';
 import type { UserConfig } from 'vite';
+import type { InlineConfig } from 'vitest';
 
 interface VitestConfigExport extends UserConfig {
   test: InlineConfig;
@@ -19,12 +19,7 @@ export default defineConfig({
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
       reportsDirectory: './src/tests/unit/coverage',
-      exclude: [
-        'node_modules/**',
-        'dist/**',
-        'public/**',
-        '**/mock/**',
-      ],
+      exclude: ['node_modules/**', 'dist/**', 'public/**', '**/mock/**'],
     },
   },
 } as VitestConfigExport);

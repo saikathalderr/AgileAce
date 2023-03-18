@@ -1,5 +1,9 @@
 {
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "importOrder": ["^components/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
   "singleQuote": true,
   "jsxSingleQuote": true,
-  "printWidth": 70
+  "printWidth": 90
 }

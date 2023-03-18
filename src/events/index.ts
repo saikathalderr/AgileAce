@@ -6,7 +6,6 @@ export const leaveRoomEvent = 'leaveRoom';
 export const userLeftEvent = 'userLeft';
 export const toggleUserVisibilityEvent = 'toggleUserVisibility';
 export const giveEstimateEvent = 'giveEstimate';
-export const toggleEstimateVisibilityEvent =
-  'toggleEstimateVisibility';
+export const toggleEstimateVisibilityEvent = 'toggleEstimateVisibility';
 
 export const resetEstimatesEvent = 'resetEstimates';
