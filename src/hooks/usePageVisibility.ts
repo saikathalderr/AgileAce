@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 let hidden: string;
 let visibilityChange: string;
@@ -16,25 +16,17 @@ if (typeof document.hidden !== 'undefined') {
 }
 
 export default function usePageVisibility() {
-  const [visibilityStatus, setVisibilityStatus] = useState(
-    document[hidden]
-  );
+  const [visibilityStatus, setVisibilityStatus] = useState(document[hidden]);
 
   useEffect(() => {
     function handleVisibilityChange() {
       setVisibilityStatus(document[hidden]);
     }
 
-    document.addEventListener(
-      visibilityChange,
-      handleVisibilityChange
-    );
+    document.addEventListener(visibilityChange, handleVisibilityChange);
 
     return () => {
-      document.removeEventListener(
-        visibilityChange,
-        handleVisibilityChange
-      );
+      document.removeEventListener(visibilityChange, handleVisibilityChange);
     };
   }, []);
 
