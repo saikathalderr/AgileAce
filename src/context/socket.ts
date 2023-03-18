@@ -1,7 +1,10 @@
 import { createContext } from 'react';
 import { Socket, io } from 'socket.io-client';
 
-export const socket: Socket = io('http://localhost:8080', {
+console.log(import.meta.env.VITE_BACK_END_URL)
+
+const BACK_END_URL: string = String(import.meta.env.VITE_BACK_END_URL)
+export const socket: Socket = io(BACK_END_URL, {
   reconnection: true,
   reconnectionDelay: 500,
   reconnectionAttempts: Infinity,
