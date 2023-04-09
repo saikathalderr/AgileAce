@@ -23,8 +23,8 @@ function Footer() {
           <b>TypeScript</b>
         </a>
         ,{' '}
-        <a href='https://socket.io/' target='_blank'>
-          <b>Socket.io</b>
+        <a href='https://firebase.google.com/' target='_blank'>
+          <b>Firebase</b>
         </a>{' '}
         & ❤️ by{' '}
         <b>
