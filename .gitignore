@@ -29,4 +29,3 @@ src/tests/unit/coverage
 .netlify
 .env.production
 .env.development
-.env.development
