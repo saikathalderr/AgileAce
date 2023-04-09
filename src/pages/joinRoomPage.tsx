@@ -1,7 +1,7 @@
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import JoinRoom from '../components/joinRoom';
 import { Player } from '@lottiefiles/react-lottie-player';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 function JoinRoomPage() {
   return (

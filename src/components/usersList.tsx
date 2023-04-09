@@ -14,28 +14,18 @@ import {
 function UsersList({
   users,
   estimates,
-  roomId,
+  showEstimates,
 }: {
   users: IUser[];
   estimates: IEstimate[];
-  roomId: string;
+  showEstimates: boolean;
 }) {
   function checkEstimationStatus({ userId }: { userId: string }) {
-    return estimates.find(
-      (estimate: IEstimate) =>
-        estimate.userId === userId && estimate.roomId === roomId
-    );
+    return estimates.find((estimate: IEstimate) => estimate.userId === userId);
   }
 
-  function getUserEstimate({
-    userId,
-  }: {
-    userId: string;
-  }): IEstimate | undefined {
-    return estimates.find(
-      (estimate: IEstimate) =>
-        estimate.userId === userId && estimate.roomId === roomId
-    );
+  function getUserEstimate({ userId }: { userId: string }): IEstimate | undefined {
+    return estimates.find((estimate: IEstimate) => estimate.userId === userId);
   }
   return (
     <div>
@@ -44,9 +34,7 @@ function UsersList({
       </Typography>
       <TableContainer component={Paper} sx={{ my: 2 }}>
         <Table aria-label='Users Table'>
-          <TableHead
-            sx={{ minHeight: 50, maxHeight: 50, height: 50 }}
-          >
+          <TableHead sx={{ minHeight: 50, maxHeight: 50, height: 50 }}>
             <TableRow>
               <TableCell>
                 <b>Users</b>
@@ -65,12 +53,11 @@ function UsersList({
                 <UserItem
                   key={user.userId}
                   user={user}
-                  hasEstimated={
-                    !!checkEstimationStatus({ userId: user.userId })
-                  }
+                  hasEstimated={!!checkEstimationStatus({ userId: user.userId })}
                   userEstimate={getUserEstimate({
                     userId: user.userId,
                   })}
+                  showEstimates={showEstimates}
                 />
               );
             })}

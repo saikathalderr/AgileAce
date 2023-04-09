@@ -1,5 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
 import HomeButton from '../homeButton';
+import { fireEvent, render } from '@testing-library/react';
 import { describe, vi } from 'vitest';
 
 const mockUseNavigate = vi.fn();

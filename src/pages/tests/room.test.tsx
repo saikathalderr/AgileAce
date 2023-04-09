@@ -1,6 +1,6 @@
-import { describe, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import RoomPage from '../room';
+import { render, screen } from '@testing-library/react';
+import { describe, vi } from 'vitest';
 
 const mockUseNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {

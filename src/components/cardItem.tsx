@@ -1,32 +1,53 @@
-import { motion } from 'framer-motion';
-import { useParams } from 'react-router-dom';
-import { Socket } from 'socket.io-client';
-import { useContext, useState } from 'react';
-import SocketContext from '../context/socket';
+import {
+  firestoreAddUserEstimation,
+  firestoreUpdateUserEstimation,
+} from '../firebase/room';
 import { getUserFromLocalStorage } from '../helper';
-import { IEstimate } from '../interfaces';
-import { giveEstimateEvent } from '../events';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function CardItem({
   label,
   active,
+  activeCardId,
 }: {
   label: string;
   active: Boolean;
+  activeCardId: string;
 }) {
-  const { roomId } = useParams();
-  const io: Socket = useContext(SocketContext);
-  const [localUser, setLocalUser] = useState(
-    getUserFromLocalStorage(String(roomId))
-  );
+  const roomId = useParams()?.roomId || '';
+  const [localUser, setLocalUser] = useState(getUserFromLocalStorage(String(roomId)));
 
   const giveEstimate = (estimate: string) => {
-    const payload: IEstimate = {
-      roomId: roomId || '',
+    firestoreAddUserEstimation({
+      roomId,
       userId: localUser?.userId || '',
       estimate,
-    };
-    io.emit(giveEstimateEvent, payload);
+    });
+  };
+
+  const updateEstimate = ({
+    estimateId,
+    estimate,
+  }: {
+    estimateId: string;
+    estimate: string;
+  }) => {
+    firestoreUpdateUserEstimation({
+      roomId,
+      estimate,
+      estimateId,
+    });
+  };
+
+  const handleEstimation = (label: string) => {
+    if (!activeCardId) giveEstimate(label);
+    else
+      updateEstimate({
+        estimateId: activeCardId || '',
+        estimate: label,
+      });
   };
 
   return (
@@ -34,7 +55,7 @@ export default function CardItem({
       whileHover={{ translateY: -30 }}
       whileTap={{ scale: 0.9 }}
       className={active ? 'card active' : 'card'}
-      onClick={() => giveEstimate(label)}
+      onClick={() => handleEstimation(label)}
     >
       {label}
     </motion.div>

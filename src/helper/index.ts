@@ -1,7 +1,12 @@
 import { IUser } from '../interfaces';
 
-export function storeUserInLocalStorage(payload: IUser) {
-  const { roomId } = payload;
+export function storeUserInLocalStorage({
+  roomId,
+  payload,
+}: {
+  roomId: string;
+  payload: IUser;
+}) {
   localStorage.setItem(roomId, JSON.stringify(payload));
   return payload;
 }

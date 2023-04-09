@@ -1,5 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
 import BackButton from '../backButton';
+import { fireEvent, render } from '@testing-library/react';
 import { describe, vi } from 'vitest';
 
 const mockUseNavigate = vi.fn();

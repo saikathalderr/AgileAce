@@ -1,6 +1,6 @@
-import { describe, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import JoinRoomPage from '../joinRoomPage';
+import { render, screen } from '@testing-library/react';
+import { describe, vi } from 'vitest';
 
 vi.mock('@lottiefiles/react-lottie-player', async () => {
   return {
@@ -20,11 +20,7 @@ describe('joinRoomPage.tsx', () => {
   test('Should Load and display right content', () => {
     render(<JoinRoomPage />);
 
-    expect(
-      screen.getByTestId('joinRoomContainer')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('animationContainer')
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('joinRoomContainer')).toBeInTheDocument();
+    expect(screen.getByTestId('animationContainer')).toBeInTheDocument();
   });
 });

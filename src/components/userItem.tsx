@@ -6,33 +6,26 @@ function userItem({
   user,
   userEstimate,
   hasEstimated,
+  showEstimates,
 }: {
   user: IUser;
   userEstimate: IEstimate | undefined;
   hasEstimated: Boolean;
+  showEstimates: Boolean;
 }) {
   return (
-    <TableRow
-      sx={{ minHeight: 50, maxHeight: 50, height: 50 }}
-      data-testid='userTableRow'
-    >
-      <TableCell data-testid='userNameCell'>
-        {' '}
-        {user.fullName}{' '}
-      </TableCell>
+    <TableRow data-testid='userTableRow'>
+      <TableCell data-testid='userNameCell'> {user.fullName}</TableCell>
       <TableCell data-testid='userVisibilityCell'>
         <UserVisibility visibility={user.visibility} />
       </TableCell>
       <TableCell sx={{ pl: 4 }} data-testid='userEstimateCell'>
-        {userEstimate?.show ? (
+        {showEstimates ? (
           <div className='small-card' data-testid='estimateCard'>
-            {userEstimate.estimate}
+            {userEstimate?.estimate}
           </div>
         ) : hasEstimated ? (
-          <div
-            className='small-card active'
-            data-testid='estimatedCard'
-          ></div>
+          <div className='small-card active' data-testid='estimatedCard'></div>
         ) : (
           <div className='small-card' data-testid='idleCard'>
             -

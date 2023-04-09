@@ -1,1 +1,1 @@
-declare const VITE_BACK_END_URL: string
+declare const VITE_BACK_END_URL: string;

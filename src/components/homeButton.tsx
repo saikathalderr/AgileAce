@@ -1,6 +1,6 @@
-import React from 'react';
-import { IconButton, Tooltip } from '@mui/material';
 import { Home } from '@mui/icons-material';
+import { IconButton, Tooltip } from '@mui/material';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function HomeButton() {

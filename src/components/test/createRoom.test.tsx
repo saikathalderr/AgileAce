@@ -1,6 +1,6 @@
+import CreateRoom from '../createRoom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe } from 'vitest';
-import CreateRoom from '../createRoom';
 import { vi } from 'vitest';
 
 vi.mock('react-router-dom', async () => {
@@ -17,12 +17,8 @@ describe('createRoom.tsx', () => {
     expect(screen.getByTestId('headingText')).toHaveTextContent(
       'Create A new poker room & join with your team'
     );
-    expect(
-      screen.getByTestId('joinButtonContainer')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('actionsContainer')
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('joinButtonContainer')).toBeInTheDocument();
+    expect(screen.getByTestId('actionsContainer')).toBeInTheDocument();
     expect(screen.getByTestId('fullNameInput')).toBeInTheDocument();
     expect(screen.getByTestId('createButton')).toBeInTheDocument();
     expect(screen.getByTestId('divider')).toBeInTheDocument();
@@ -36,9 +32,7 @@ describe('createRoom.tsx', () => {
     fireEvent.click(createButton);
 
     expect(screen.getByTestId('errorText')).toBeInTheDocument();
-    expect(screen.getByTestId('errorText')).toHaveTextContent(
-      'Please provide a name'
-    );
+    expect(screen.getByTestId('errorText')).toHaveTextContent('Please provide a name');
     expect(createButton).toBeDisabled();
   });
 });

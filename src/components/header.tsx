@@ -1,3 +1,5 @@
+import HomeButton from './homeButton';
+import { Logout, Share } from '@mui/icons-material';
 import {
   AppBar,
   Button,
@@ -9,61 +11,18 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { Close, Logout, Share } from '@mui/icons-material';
-import HomeButton from './homeButton';
-import { SyntheticEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 
-function Header({
-  roomId,
-  onLeave,
-}: {
-  roomId: string;
-  onLeave: () => void;
-}) {
-  const [linkCopied, setLinkCopied] = useState<boolean>(false);
-
+function Header({ roomId, onLeave }: { roomId: string; onLeave: () => void }) {
   const onShare = () => {
     const link = window.location.href;
     navigator.clipboard.writeText(link);
-    setLinkCopied(true);
+    toast('Link copied to clipboard!');
   };
-
-  const handleLinkCopySnakeBarClose = (
-    event: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') return;
-    setLinkCopied(false);
-  };
-
-  const snakeBarAction = (
-    <>
-      <Button
-        color='secondary'
-        size='small'
-        onClick={handleLinkCopySnakeBarClose}
-      >
-        UNDO
-      </Button>
-      <IconButton
-        size='small'
-        aria-label='close'
-        color='inherit'
-        onClick={handleLinkCopySnakeBarClose}
-      >
-        <Close fontSize='small' />
-      </IconButton>
-    </>
-  );
 
   return (
     <>
-      <AppBar
-        position='static'
-        sx={{ my: 10 }}
-        elevation={0}
-        color='inherit'
-      >
+      <AppBar position='static' sx={{ my: 5 }} elevation={0} color='inherit'>
         <Toolbar>
           <HomeButton />
           <Typography
@@ -75,9 +34,11 @@ function Header({
           </Typography>
           <Stack spacing={3} direction='row'>
             <Button
-              variant='contained'
+              variant='text'
               endIcon={<Share />}
               onClick={onShare}
+              size='small'
+              sx={{ px: 2 }}
             >
               Share Room
             </Button>
@@ -87,21 +48,12 @@ function Header({
                 onClick={onLeave}
                 color='error'
               >
-                <Logout />
+                <Logout sx={{ width: 20, height: 20 }} />
               </IconButton>
             </Tooltip>
           </Stack>
         </Toolbar>
       </AppBar>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={linkCopied}
-        onClose={handleLinkCopySnakeBarClose}
-        autoHideDuration={6000}
-        action={snakeBarAction}
-      >
-        <Alert severity='info'>Link copied!</Alert>
-      </Snackbar>
     </>
   );
 }

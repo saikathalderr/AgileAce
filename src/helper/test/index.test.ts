@@ -1,11 +1,10 @@
-import { describe } from 'vitest';
-
 import { IUser } from '../../interfaces';
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
   storeUserInLocalStorage,
 } from '../index';
+import { describe } from 'vitest';
 
 describe('Helper.ts', () => {
   afterEach(() => {
