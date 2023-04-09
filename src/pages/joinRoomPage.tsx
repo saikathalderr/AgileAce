@@ -2,6 +2,7 @@ import JoinRoom from '../components/joinRoom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import joinRoomAnimation from '../lottiefiles/117595-mom-telling-the-story.json'
 
 function JoinRoomPage() {
   return (
@@ -40,7 +41,7 @@ function JoinRoomPage() {
           <Player
             autoplay
             loop
-            src={'assets/117595-mom-telling-the-story.json'}
+            src={joinRoomAnimation}
             style={{ width: '100%', position: 'absolute', bottom: 0 }}
           />
         </Box>

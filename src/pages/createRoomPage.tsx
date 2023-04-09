@@ -2,6 +2,7 @@ import CreateRoom from '../components/createRoom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import createRoomAnimation from '../lottiefiles/117772-client-meeting.json'
 
 function CreateRoomPage() {
   return (
@@ -40,7 +41,7 @@ function CreateRoomPage() {
           <Player
             autoplay
             loop
-            src={'assets/117772-client-meeting.json'}
+            src={createRoomAnimation}
             style={{ width: '100%', position: 'absolute', bottom: 0 }}
           />
         </Box>
