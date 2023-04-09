@@ -1,14 +1,11 @@
-import CardItem from './cardItem';
-import { IEstimate } from '../interfaces';
-import { Socket } from 'socket.io-client';
-import { useContext } from 'react';
-import SocketContext from '../context/socket';
 import {
-  resetEstimatesEvent,
-  toggleEstimateVisibilityEvent,
-} from '../events';
-import { Button, Divider, Stack } from '@mui/material';
+  firestoreDeleteEstimations,
+  firestoreToggleEstimationsVisibility,
+} from '../firebase/room';
+import { IEstimate } from '../interfaces';
+import CardItem from './cardItem';
 import { Delete } from '@mui/icons-material';
+import { Button, Divider, Stack } from '@mui/material';
 
 function CardList({
   userId,
@@ -19,34 +16,22 @@ function CardList({
   roomId: string;
   estimates: IEstimate[];
 }) {
-  const io: Socket = useContext(SocketContext);
-
-  const cardsArray = [
-    '0',
-    '½',
-    '1',
-    '2',
-    '3',
-    '5',
-    '8',
-    '13',
-    '20',
-    '40',
-    '100',
-    '?',
-  ];
+  const cardsArray = ['0', '½', '1', '2', '3', '5', '8', '13', '20', '40', '100', '?'];
   const isCardActive = (estimate: string): Boolean => {
     return !!estimates.find(
       (e: IEstimate) => e.estimate === estimate && e.userId === userId
     );
   };
 
+  const activeCardId =
+    estimates.find((e: IEstimate) => e.userId === userId)?.estimateId || '';
+
   const onShow = () => {
-    io.emit(toggleEstimateVisibilityEvent, { roomId });
+    firestoreToggleEstimationsVisibility({ roomId, show: true });
   };
 
   const onReset = () => {
-    io.emit(resetEstimatesEvent, { roomId });
+    firestoreDeleteEstimations({ roomId });
   };
   return (
     <>
@@ -56,6 +41,7 @@ function CardList({
             key={card + idx + 1}
             label={card}
             active={isCardActive(card)}
+            activeCardId={activeCardId}
           />
         ))}
       </div>
@@ -72,12 +58,7 @@ function CardList({
         <Button variant='contained' onClick={onShow}>
           Show
         </Button>
-        <Button
-          variant='contained'
-          color='error'
-          onClick={onReset}
-          endIcon={<Delete />}
-        >
+        <Button variant='contained' color='error' onClick={onReset} endIcon={<Delete />}>
           Reset
         </Button>
       </Stack>

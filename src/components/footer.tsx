@@ -1,5 +1,5 @@
-import { Box, Divider, Typography } from '@mui/material';
 import { GitHub } from '@mui/icons-material';
+import { Box, Divider, Typography } from '@mui/material';
 
 function Footer() {
   return (
@@ -28,18 +28,12 @@ function Footer() {
         </a>{' '}
         & ❤️ by{' '}
         <b>
-          <a
-            href='https://www.linkedin.com/in/saikathalderr/'
-            target='_blank'
-          >
+          <a href='https://www.linkedin.com/in/saikathalderr/' target='_blank'>
             Saikat Halder
           </a>
         </b>{' '}
         - available on{' '}
-        <a
-          href='https://github.com/saikathalderr/plan-it-pocker-lb'
-          target='_blank'
-        >
+        <a href='https://github.com/saikathalderr/plan-it-pocker-lb' target='_blank'>
           <b>
             GitHub <GitHub sx={{ fontSize: 13 }} />
           </b>

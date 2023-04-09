@@ -1,6 +1,6 @@
-import { describe } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import Footer from '../footer';
+import { render, screen } from '@testing-library/react';
+import { describe } from 'vitest';
 
 describe('footer.tsx', () => {
   test('Load and display right content', () => {

@@ -1,16 +1,13 @@
-import { describe } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { IEstimate } from '../../interfaces';
 import UserItem from '../userItem';
 import { mockUser, mockUserEstimate } from './mock/index.mock';
-import { IEstimate } from '../../interfaces';
+import { render, screen } from '@testing-library/react';
+import { describe } from 'vitest';
+
 describe('userItem.tsx', () => {
   test('Load and display necessary content', () => {
     render(
-      <UserItem
-        user={mockUser}
-        userEstimate={mockUserEstimate}
-        hasEstimated={false}
-      />
+      <UserItem user={mockUser} userEstimate={mockUserEstimate} hasEstimated={false} />
     );
     expect(screen.getByTestId('userTableRow')).toBeTruthy();
     expect(screen.getByTestId('userNameCell')).toBeTruthy();
@@ -23,11 +20,7 @@ describe('userItem.tsx', () => {
     const mockUserEstimated: IEstimate = mockUserEstimate;
     mockUserEstimated.show = true;
     render(
-      <UserItem
-        user={mockUser}
-        userEstimate={mockUserEstimated}
-        hasEstimated={false}
-      />
+      <UserItem user={mockUser} userEstimate={mockUserEstimated} hasEstimated={false} />
     );
     expect(screen.getByTestId('estimateCard')).toBeTruthy();
   });
@@ -36,11 +29,7 @@ describe('userItem.tsx', () => {
     const mockUserEstimated: IEstimate = mockUserEstimate;
     mockUserEstimated.show = false;
     render(
-      <UserItem
-        user={mockUser}
-        userEstimate={mockUserEstimated}
-        hasEstimated={true}
-      />
+      <UserItem user={mockUser} userEstimate={mockUserEstimated} hasEstimated={true} />
     );
     expect(screen.getByTestId('estimatedCard')).toBeTruthy();
   });

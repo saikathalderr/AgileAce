@@ -1,130 +1,112 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import {
-  getRoomDataEvent,
-  leaveRoomEvent,
-  toggleUserVisibilityEvent,
-  userLeftEvent,
-} from '../events';
-
-import {
-  IEstimate,
-  IRoomData,
-  IToggleUserVisibility,
-  IUser,
-} from '../interfaces';
-import {
-  exitAlert,
-  getUserFromLocalStorage,
-  removeUserFromLocalStorage,
-} from '../helper';
-import usePageVisibility from '../hooks/usePageVisibility';
-import Header from '../components/header';
-import UsersList from '../components/usersList';
 import CardList from '../components/cardList';
-import { Alert, Box, Container, Snackbar } from '@mui/material';
-import { socket } from '../context/socket';
-import { Socket } from 'socket.io-client';
+import Header from '../components/header';
+import Loading from '../components/loading';
+import UsersList from '../components/usersList';
+import { db } from '../firebase';
+import {
+  ESTIMATIONS_COLLECTION,
+  ROOMS_COLLECTION,
+  USERS_COLLECTION,
+} from '../firebase/collections';
+import { firestoreDeleteUser, firestoreToggleUserVisibility } from '../firebase/room';
+import { getUserFromLocalStorage, removeUserFromLocalStorage } from '../helper';
+import usePageVisibility from '../hooks/usePageVisibility';
+import { IEstimate, IUser } from '../interfaces';
+import { Box, Container } from '@mui/material';
+import { collection, doc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Room = () => {
-  const io: Socket = socket;
   const navigate = useNavigate();
-  const { roomId } = useParams();
+  const roomId = useParams().roomId || '';
+
+  const [localUser, setLocalUser] = useState(getUserFromLocalStorage(String(roomId)));
+  const [showEstimates, setShowEstimates] = useState<boolean>(false);
   const [users, setUsers] = useState<IUser[]>([]);
-  const [leaving, setLeaving] = useState<boolean>(false);
-  const [mounted, setMounted] = useState<boolean>(false);
-  const [userLeft, setUserLeft] = useState<boolean>(false);
-  const [userLeftMessage, setUserLeftMessage] = useState<string>('');
-  const [localUser, setLocalUser] = useState(
-    getUserFromLocalStorage(String(roomId))
-  );
   const pageVisibilityStatus = usePageVisibility();
   const [estimates, setEstimates] = useState<IEstimate[]>([]);
 
-  const onLeave = () => {
-    setLeaving(true);
-    io.emit(leaveRoomEvent, {
-      roomId,
-      userId: localUser?.userId,
-    });
-    removeUserFromLocalStorage(String(roomId));
-    setLocalUser(undefined);
+  const onLeave = async () => {
+    if (confirm('Are you sure you want to leave the room?')) {
+      await firestoreDeleteUser({ roomId, userId: localUser?.userId || '' });
+      removeUserFromLocalStorage(roomId);
+      setLocalUser(undefined);
+      navigate('/');
+    }
   };
 
-  useEffect(() => {
-    return () => {
-      setMounted(true);
-    };
-  }, []);
+  const [usersSnapshot, loadingUsers, errorLoadingUsers] = useCollection(
+    collection(db, ROOMS_COLLECTION, roomId, USERS_COLLECTION),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
-  useEffect(() => {
-    return () => {
-      if (leaving || mounted) return;
-      else if (!localUser) {
-        navigate(`/join-room?roomId=${roomId}`);
-      }
-    };
-  }, [io.id]);
+  const [estimatesSnapshot, loadingEstimates, errorLoadingEstimates] = useCollection(
+    collection(db, ROOMS_COLLECTION, roomId, ESTIMATIONS_COLLECTION),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
-  useEffect(() => {
-    if (leaving && !localUser && mounted) navigate('/');
-  }, [localUser]);
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', exitAlert);
-    return () => {
-      window.removeEventListener("beforeunload", exitAlert);
-    };
-  }, []);
-
-  useEffect(() => {
-    io.on(getRoomDataEvent, (payload: IRoomData) => {
-      console.log('getRoomDataEvent triggered');
-      const { users, estimates } = payload;
-      setUsers(users);
-      setEstimates(estimates);
+  const [estimateVisibility, loadingEstimateVisibility, errorLoadingEstimateVisibility] =
+    useDocument(doc(db, ROOMS_COLLECTION, roomId), {
+      snapshotListenOptions: { includeMetadataChanges: true },
     });
-    io.on(userLeftEvent, (payload: string) => {
-      setUserLeft(true);
-      setUserLeftMessage(payload);
-    });
-    return () => {
-      io.off(getRoomDataEvent);
-      io.off(userLeftEvent);
-    };
-  }, [io]);
+
+  useEffect(() => {
+    setShowEstimates(estimateVisibility?.data()?.showEstimates);
+  }, [estimateVisibility]);
+
+  useEffect(() => {
+    if (errorLoadingUsers || errorLoadingEstimates || errorLoadingEstimateVisibility) {
+      toast.error('Something went wrong fetching room!.');
+      navigate('/');
+    }
+  }, [errorLoadingUsers || errorLoadingEstimates || errorLoadingEstimateVisibility]);
+
+  useEffect(() => {
+    if (loadingUsers) return;
+    const users =
+      usersSnapshot?.docs.map((doc) => {
+        return { ...doc.data(), userId: doc.id } as IUser;
+      }) || [];
+    setUsers(users);
+  }, [usersSnapshot]);
+
+  useEffect(() => {
+    if (loadingEstimates) return;
+    const estimates =
+      estimatesSnapshot?.docs.map((doc) => {
+        return { ...doc.data(), estimateId: doc.id } as IEstimate;
+      }) || [];
+    setEstimates(estimates);
+  }, [estimatesSnapshot]);
 
   useEffect(() => {
     if (!localUser) return;
-    const toggleUserVisibilityEventPayload: IToggleUserVisibility = {
-      user: localUser,
-      visibilityStatus: pageVisibilityStatus,
-    };
-    io.emit(
-      toggleUserVisibilityEvent,
-      toggleUserVisibilityEventPayload
-    );
+    firestoreToggleUserVisibility({
+      roomId,
+      userId: localUser.userId,
+      visibility: pageVisibilityStatus,
+    });
   }, [pageVisibilityStatus]);
 
-  if (!io || !localUser)
-    return <div data-testid='loading'>Loading....</div>;
+  if (!localUser) navigate(`/join-room?roomId=${roomId}`);
+  if (loadingUsers || loadingEstimates || loadingEstimateVisibility) return <Loading />;
 
   return (
     <>
-      <Container
-        sx={{ width: '1080px', pb: 10 }}
-        data-testid='roomPageContainer'
-      >
+      <Container sx={{ width: '1080px', pb: 10 }} data-testid='roomPageContainer'>
         <Box>
-          <Header
-            roomId={String(roomId)}
-            onLeave={onLeave}
-            data-testid={'roomHeader'}
-          />
+          <Header roomId={String(roomId)} onLeave={onLeave} data-testid={'roomHeader'} />
 
           <CardList
             data-testid={'roomCardList'}
-            userId={localUser?.userId}
+            userId={localUser?.userId || ''}
             roomId={String(roomId)}
             estimates={estimates}
           />
@@ -132,17 +114,10 @@ const Room = () => {
           <UsersList
             data-testid={'roomUsersList'}
             users={users}
-            roomId={String(roomId)}
             estimates={estimates}
+            showEstimates={showEstimates}
           />
         </Box>
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          open={userLeft}
-          autoHideDuration={1000}
-        >
-          <Alert severity='info'>{userLeftMessage}</Alert>
-        </Snackbar>
       </Container>
     </>
   );

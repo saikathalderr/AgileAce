@@ -1,11 +1,8 @@
-import SocketContext from '../context/socket';
-import { Link, useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { createRoomEvent } from '../events';
-import { Socket } from 'socket.io-client';
-import { IRoom } from '../interfaces';
-import { v4 as uuidv4 } from 'uuid';
-import { storeUserInLocalStorage } from '../helper';
+import { firestoreCreateNewRoom } from '../firebase/room';
+import { ICreateRoom, IRoom } from '../interfaces';
+import BackButton from './backButton';
+import HomeButton from './homeButton';
+import { AccountCircle } from '@mui/icons-material';
 import {
   Chip,
   Divider,
@@ -15,29 +12,26 @@ import {
   Stack,
 } from '@mui/material';
 import Box from '@mui/material/Box';
-import { AccountCircle } from '@mui/icons-material';
 import Button from '@mui/material/Button';
-import BackButton from './backButton';
-import HomeButton from './homeButton';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function CreateRoom() {
   const navigate = useNavigate();
+  const [joining, setJoining] = useState<boolean>(false);
   const [fullName, setFullName] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const io = useContext<Socket>(SocketContext);
-  const uuRoomID: string = uuidv4({});
 
-  const onCreate = () => {
+  const onCreate = async () => {
     if (!fullName) return setError('Please provide a name');
-    const createRoomArgs: IRoom = {
+    const createRoomArgs: ICreateRoom = {
       fullName,
-      roomId: uuRoomID,
-      userId: io.id,
     };
-    io.emit(createRoomEvent, createRoomArgs);
-    storeUserInLocalStorage(createRoomArgs);
     setError('');
-    navigate(`/room/${uuRoomID}`);
+    setJoining(true);
+    const roomId = await firestoreCreateNewRoom(createRoomArgs);
+    setJoining(false);
+    navigate(`/room/${roomId}`);
   };
 
   return (
@@ -56,11 +50,7 @@ function CreateRoom() {
           </Stack>
         </Box>
 
-        <Typography
-          variant='h5'
-          gutterBottom
-          data-testid='headingText'
-        >
+        <Typography variant='h5' gutterBottom data-testid='headingText'>
           <b>Create </b>
           <Typography variant='subtitle1'>
             A new poker room & join with your team
@@ -77,13 +67,7 @@ function CreateRoom() {
           data-testid='fullNameInput'
           placeholder='Enter your name.'
           error={!!error.length}
-          helperText={
-            !!error.length ? (
-              <span data-testid='errorText'>{error}</span>
-            ) : (
-              ''
-            )
-          }
+          helperText={!!error.length ? <span data-testid='errorText'>{error}</span> : ''}
           onChange={(event) => {
             setFullName(event.target.value.trim());
             setError('');
@@ -91,9 +75,7 @@ function CreateRoom() {
           InputProps={{
             startAdornment: (
               <InputAdornment position='start'>
-                <AccountCircle
-                  color={!!error.length ? 'error' : 'inherit'}
-                />
+                <AccountCircle color={!!error.length ? 'error' : 'inherit'} />
               </InputAdornment>
             ),
           }}
@@ -102,10 +84,10 @@ function CreateRoom() {
           <Button
             onClick={onCreate}
             variant='contained'
-            disabled={!!error.length}
+            disabled={!!error.length || joining}
             data-testid='createButton'
           >
-            Create
+            {joining ? 'Creating...' : 'Create'}
           </Button>
         </div>
       </Box>
@@ -124,6 +106,7 @@ function CreateRoom() {
           fullWidth
           component={Link}
           to={'/join-room'}
+          disabled={joining}
         >
           Join
         </Button>

@@ -1,17 +1,14 @@
-import ReactDOM from 'react-dom/client';
-import Room from './pages/room';
-import React from 'react';
 import App from './App';
-
+import Footer from './components/footer';
 import './index.css';
-import { SocketProver, socket } from './context/socket';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
 import CreateRoomPage from './pages/createRoomPage';
 import JoinRoomPage from './pages/joinRoomPage';
-import Footer from './components/footer';
+import Room from './pages/room';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -32,13 +29,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <SocketProver value={socket}>
+    <>
       <RouterProvider router={router} />
       <Footer />
-    </SocketProver>
+      <ToastContainer />
+    </>
   </React.StrictMode>
 );

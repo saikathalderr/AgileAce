@@ -1,6 +1,6 @@
+import JoinRoom from '../joinRoom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe } from 'vitest';
-import JoinRoom from '../joinRoom';
 import { vi } from 'vitest';
 
 vi.mock('react-router-dom', async () => {
@@ -24,9 +24,7 @@ describe('joinRoom.tsx', () => {
     expect(screen.getByTestId('joinButton')).toBeInTheDocument();
     expect(screen.getByTestId('divider')).toBeInTheDocument();
     expect(screen.getByTestId('orChip')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('createButtonContainer')
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('createButtonContainer')).toBeInTheDocument();
   });
 
   test('Should return name error if no name passed', async () => {

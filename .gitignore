@@ -28,3 +28,5 @@ src/tests/unit/coverage
 # Local Netlify folder
 .netlify
 .env.production
+.env.development
+.env.development

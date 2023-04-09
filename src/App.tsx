@@ -1,12 +1,6 @@
-import { Link } from 'react-router-dom';
-import {
-  Button,
-  Divider,
-  Grid,
-  Typography,
-  Stack,
-} from '@mui/material';
+import { Button, Divider, Grid, Typography, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -38,14 +32,13 @@ function App() {
 
                 <Typography variant='h3' gutterBottom sx={{ my: 3 }}>
                   <b>
-                    Scrum Poker for <br /> agile development <br />{' '}
-                    teams
+                    Scrum Poker for <br /> agile development <br /> teams
                   </b>
                 </Typography>
 
                 <Typography variant='subtitle1' gutterBottom>
-                  Efficiently estimate project tasks with a
-                  user-friendly <br /> Scrum Poker dashboard.
+                  Efficiently estimate project tasks with a user-friendly <br /> Scrum
+                  Poker dashboard.
                 </Typography>
 
                 <Divider style={{ margin: '30px 0' }} />
