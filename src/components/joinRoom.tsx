@@ -1,12 +1,11 @@
 import { firestoreJoinRoom } from '../firebase/room';
 import { getUserFromLocalStorage } from '../helper';
 import { IRoom } from '../interfaces';
-import { AccountCircle, Key } from '@mui/icons-material';
+import { Key } from '@mui/icons-material';
 import {
   Chip,
   Divider,
   InputAdornment,
-  Stack,
   TextField,
   Typography,
 } from '@mui/material';
@@ -41,7 +40,7 @@ function JoinRoom() {
     };
     const hasUser = getUserFromLocalStorage(String(roomId));
     if (hasUser) {
-      toast.warn('you are already in the room');
+      toast('you are already in the room');
       return navigate(`/room/${roomId}`);
     }
     setJoining(true);
