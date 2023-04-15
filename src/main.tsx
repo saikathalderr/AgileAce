@@ -1,5 +1,6 @@
 import App from './App';
 import { AuthenticatedRoute } from './AuthenticatedRoute';
+import Footer from './components/footer';
 import { auth } from './firebase';
 import { AuthProvider } from './firebase/context/auth.context';
 import './index.css';
@@ -60,6 +61,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <AuthProvider>
         <RouterProvider router={router} />
         <ToastContainer />
+        <Footer/>
       </AuthProvider>
     </>
   </React.StrictMode>
