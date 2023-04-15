@@ -1,10 +1,13 @@
 import App from './App';
-import Footer from './components/footer';
+import { AuthenticatedRoute } from './AuthenticatedRoute';
+import { auth } from './firebase';
+import { AuthProvider } from './firebase/context/auth.context';
 import './index.css';
+import AuthPage from './pages/authPage';
 import CreateRoomPage from './pages/createRoomPage';
 import JoinRoomPage from './pages/joinRoomPage';
 import Room from './pages/room';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -17,24 +20,47 @@ const router = createBrowserRouter([
   },
   {
     path: 'room/:roomId',
-    element: <Room />,
+    element: (
+      <>
+        <AuthenticatedRoute>
+          <Room />
+        </AuthenticatedRoute>
+      </>
+    ),
   },
   {
     path: 'create-room',
-    element: <CreateRoomPage />,
+    element: (
+      <>
+        <AuthenticatedRoute>
+          <CreateRoomPage />
+        </AuthenticatedRoute>
+      </>
+    ),
   },
   {
     path: 'join-room',
-    element: <JoinRoomPage />,
+    element: (
+      <>
+        <AuthenticatedRoute>
+          <JoinRoomPage />
+        </AuthenticatedRoute>
+      </>
+    ),
+  },
+  {
+    path: 'login',
+    element: <AuthPage />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <>
-      <RouterProvider router={router} />
-      <Footer />
-      <ToastContainer />
+      <AuthProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </AuthProvider>
     </>
   </React.StrictMode>
 );

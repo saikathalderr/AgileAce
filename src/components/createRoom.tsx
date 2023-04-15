@@ -1,7 +1,5 @@
 import { firestoreCreateNewRoom } from '../firebase/room';
-import { ICreateRoom, IRoom } from '../interfaces';
-import BackButton from './backButton';
-import HomeButton from './homeButton';
+import { ICreateRoom } from '../interfaces';
 import { AccountCircle } from '@mui/icons-material';
 import {
   Chip,
@@ -15,17 +13,19 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ToolBar from './ToolBar';
+import { useFirebaseAuth } from '../firebase/context/auth.context';
 
 function CreateRoom() {
+  const { user } = useFirebaseAuth();
   const navigate = useNavigate();
   const [joining, setJoining] = useState<boolean>(false);
-  const [fullName, setFullName] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   const onCreate = async () => {
-    if (!fullName) return setError('Please provide a name');
     const createRoomArgs: ICreateRoom = {
-      fullName,
+      fullName: user?.displayName || '',
+      userId: user?.uid || '',
     };
     setError('');
     setJoining(true);
@@ -43,43 +43,13 @@ function CreateRoom() {
           pb: 3,
         }}
       >
-        <Box sx={{ mb: 5 }} data-testid='actionsContainer'>
-          <Stack spacing={1} direction='row'>
-            <BackButton />
-            <HomeButton />
-          </Stack>
-        </Box>
-
+        <ToolBar/>
         <Typography variant='h5' gutterBottom data-testid='headingText'>
           <b>Create </b>
           <Typography variant='subtitle1'>
             A new poker room & join with your team
           </Typography>
         </Typography>
-        <TextField
-          fullWidth
-          autoFocus
-          label='Name'
-          id='fullName'
-          margin='normal'
-          variant='outlined'
-          autoComplete='off'
-          data-testid='fullNameInput'
-          placeholder='Enter your name.'
-          error={!!error.length}
-          helperText={!!error.length ? <span data-testid='errorText'>{error}</span> : ''}
-          onChange={(event) => {
-            setFullName(event.target.value.trim());
-            setError('');
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <AccountCircle color={!!error.length ? 'error' : 'inherit'} />
-              </InputAdornment>
-            ),
-          }}
-        />
         <div>
           <Button
             onClick={onCreate}
@@ -87,7 +57,7 @@ function CreateRoom() {
             disabled={!!error.length || joining}
             data-testid='createButton'
           >
-            {joining ? 'Creating...' : 'Create'}
+            {joining ? 'Creating...' : 'Create new'}
           </Button>
         </div>
       </Box>

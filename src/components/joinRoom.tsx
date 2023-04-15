@@ -1,8 +1,6 @@
 import { firestoreJoinRoom } from '../firebase/room';
 import { getUserFromLocalStorage } from '../helper';
 import { IRoom } from '../interfaces';
-import BackButton from './backButton';
-import HomeButton from './homeButton';
 import { AccountCircle, Key } from '@mui/icons-material';
 import {
   Chip,
@@ -16,13 +14,16 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import ToolBar from './ToolBar';
+import { useFirebaseAuth } from '../firebase/context/auth.context';
+import { toast } from 'react-toastify';
 
 function JoinRoom() {
   const [searchParams] = useSearchParams();
   const roomIdParams = searchParams.get('roomId');
+  const { user } = useFirebaseAuth();
 
   const [joining, setJoining] = useState<boolean>(false);
-  const [fullName, setFullName] = useState<string>('');
   const [roomId, setRoomId] = useState<string>(roomIdParams || '');
   const [isRoomIdPreFilled, setIsRoomIdPreFilled] = useState<boolean>(
     !!roomIdParams || false
@@ -32,17 +33,15 @@ function JoinRoom() {
   const navigate = useNavigate();
 
   const onJoin = async () => {
-    if (!fullName) setNameError('Name is missing!');
-    if (!roomId) setRoomIdError('Room id is missing!');
-    if (!fullName || !roomId) return;
+    if (!roomId) return setRoomIdError('Room id is missing!');
 
     const joinRoomArgs: IRoom = {
-      fullName,
+      fullName: user?.displayName || '',
       roomId: roomId,
     };
     const hasUser = getUserFromLocalStorage(String(roomId));
     if (hasUser) {
-      alert('you are already in the room');
+      toast.warn('you are already in the room');
       return navigate(`/room/${roomId}`);
     }
     setJoining(true);
@@ -62,44 +61,12 @@ function JoinRoom() {
           pb: 3,
         }}
       >
-        <Box sx={{ mb: 5 }} data-testid='actionsContainer'>
-          <Stack spacing={1} direction='row'>
-            <BackButton />
-            <HomeButton />
-          </Stack>
-        </Box>
+        <ToolBar/>
 
         <Typography variant='h5' gutterBottom data-testid='headingText'>
           <b>Join </b>
           <Typography variant='subtitle1'>the poker room with your team</Typography>
         </Typography>
-
-        <TextField
-          fullWidth
-          autoFocus
-          label='Name'
-          id='fullName'
-          margin='normal'
-          autoComplete='off'
-          variant='outlined'
-          placeholder='Enter your name.'
-          data-testid='fullNameInput'
-          error={!!nameError.length}
-          helperText={
-            !!nameError.length ? <span data-testid='nameErrorText'>{nameError}</span> : ''
-          }
-          onChange={(event) => {
-            setFullName(event.target.value.trim());
-            setNameError('');
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <AccountCircle color={!!nameError.length ? 'error' : 'inherit'} />
-              </InputAdornment>
-            ),
-          }}
-        />
 
         <TextField
           fullWidth

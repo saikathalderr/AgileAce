@@ -16,4 +16,5 @@ export interface IEstimate {
 }
 export interface ICreateRoom {
   fullName: string;
+  userId: string;
 }
