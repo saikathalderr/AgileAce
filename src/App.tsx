@@ -1,6 +1,10 @@
+import LogoSvg from './assets/AgileAce.svg';
+import appAnimation from './lottiefiles/84726-business-meeting-animation.json';
+import { Player } from '@lottiefiles/react-lottie-player';
 import { Button, Divider, Grid, Typography, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
+
 function App() {
   return (
     <div>
@@ -24,9 +28,23 @@ function App() {
                 <Typography
                   variant='h3'
                   component='div'
-                  sx={{ flexGrow: 1, color: 'primary.main' }}
+                  sx={{
+                    flexGrow: 1,
+                    color: 'primary.main',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                  }}
                 >
-                  <b data-test-id='appName'>AgileAce</b>
+                  <img src={LogoSvg} alt='agile-ace-logo' width={80} />
+                  <b
+                    style={{
+                      color: '#2DA0D2',
+                    }}
+                    data-test-id='appName'
+                  >
+                    AgileAce
+                  </b>
                 </Typography>
 
                 <Typography variant='h3' gutterBottom sx={{ my: 3 }}>
@@ -80,10 +98,11 @@ function App() {
                 height: '100%',
               }}
             >
-              <img
-                src='assets/undraw_playing_cards_cywn.svg'
-                style={{ width: '50%' }}
-                alt='bg'
+              <Player
+                autoplay
+                loop
+                src={appAnimation}
+                style={{ width: '80%', marginLeft: -100 }}
               />
             </Grid>
           </Box>
