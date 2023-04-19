@@ -6,10 +6,14 @@ import { useState } from 'react';
 
 export default function Auth() {
   const [signingIn, setSigningIn] = useState(false);
-  const { signInWithGoogle } = useFirebaseAuth();
+  const { signInWithGoogle, user } = useFirebaseAuth();
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
-  const callBackUrl = searchParams.get('callBackUrl') || '/';
+  const callBackUrl = searchParams.get('callBackUrl') || '/create-room';
+
+  if (user?.uid) {
+    navigate('/create-room')
+  }
 
   const handleSignInWithGoogle = async () => {
     setSigningIn(true)
