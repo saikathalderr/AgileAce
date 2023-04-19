@@ -1,114 +1,91 @@
 import LogoSvg from './assets/AgileAce.svg';
-import appAnimation from './lottiefiles/84726-business-meeting-animation.json';
-import { Player } from '@lottiefiles/react-lottie-player';
-import { Button, Divider, Grid, Typography, Stack } from '@mui/material';
-import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
+import DemoSvg from './assets/demo.svg';
+import { Button, Typography, Box } from '@mui/material';
+import {Link} from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Box
+    <>
+      <div
+        style={{
+          padding: '70px 0',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '15px',
+          }}
+        >
+          <img src={LogoSvg} alt='agile-ace-logo' width={150} />
+        </Box>
+        <Box>
+          <Typography
+            variant='subtitle1'
+            gutterBottom
             sx={{
-              width: '100%',
-              height: '100vh',
+              my: 3,
+              textAlign: 'center',
+              fontWeight: 900,
+              lineHeight: 1,
+              fontSize: '40px',
+              color: '#35312B',
             }}
           >
-            <Grid
-              display='flex'
-              justifyContent='end'
-              alignItems='center'
-              style={{
-                height: '100%',
-              }}
-            >
-              <div>
-                <Typography
-                  variant='h3'
-                  component='div'
-                  sx={{
-                    flexGrow: 1,
-                    color: 'primary.main',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                  }}
-                >
-                  <img src={LogoSvg} alt='agile-ace-logo' width={80} />
-                  <b
-                    style={{
-                      color: '#2DA0D2',
-                    }}
-                    data-test-id='appName'
-                  >
-                    AgileAce
-                  </b>
-                </Typography>
+            Scrum Poker <br /> for agile development teams
+          </Typography>
 
-                <Typography variant='h3' gutterBottom sx={{ my: 3 }}>
-                  <b>
-                    Scrum Poker for <br /> agile development <br /> teams
-                  </b>
-                </Typography>
-
-                <Typography variant='subtitle1' gutterBottom>
-                  Efficiently estimate project tasks with a user-friendly <br /> Scrum
-                  Poker dashboard.
-                </Typography>
-
-                <Divider style={{ margin: '30px 0' }} />
-
-                <Stack spacing={2} direction='row'>
-                  <Button
-                    variant='contained'
-                    color='primary'
-                    component={Link}
-                    to={'/create-room'}
-                  >
-                    Create room
-                  </Button>
-                  <Divider orientation='vertical' flexItem />
-                  <Button
-                    variant='text'
-                    color='primary'
-                    component={Link}
-                    to={'/join-room'}
-                  >
-                    Join room
-                  </Button>
-                </Stack>
-              </div>
-            </Grid>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Box
+          <Typography
+            variant='subtitle1'
+            gutterBottom
             sx={{
-              width: '100%',
-              height: '100vh',
+              my: 3,
+              textAlign: 'center',
+              fontWeight: 900,
+              lineHeight: 1,
+              fontSize: '15px',
+              color: 'rgba(36, 36, 36, 0.4)',
             }}
           >
-            <Grid
-              display='flex'
-              justifyContent='start'
-              alignItems='center'
-              style={{
-                height: '100%',
-              }}
-            >
-              <Player
-                autoplay
-                loop
-                src={appAnimation}
-                style={{ width: '80%', marginLeft: -100 }}
-              />
-            </Grid>
-          </Box>
-        </Grid>
-      </Grid>
-    </div>
+            Efficiently estimate project tasks with a user-friendlyScrum <br /> Poker
+            dashboard.
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '20px',
+            margin: '50px 0',
+          }}
+        >
+          <Button variant='contained' size='large' component={Link} to={'/create-room'}>
+            Try Agile Ace
+          </Button>
+          <Button component={Link} to={'/login'} variant='text' size='large'>
+            Login
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            margin: '0 auto',
+            position: 'relative',
+            maxWidth: '1500px',
+          }}
+        >
+          <img
+            src={DemoSvg}
+            alt='agile-ace-demo'
+            style={{
+              width: '100%'
+            }}
+          />
+        </Box>
+      </div>
+    </>
   );
 }
 

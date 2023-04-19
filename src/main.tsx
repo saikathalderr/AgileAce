@@ -63,7 +63,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <AuthProvider>
           <RouterProvider router={router} />
           <ToastContainer />
-          <Footer />
+          {/* <Footer /> */}
         </AuthProvider>
       </ThemeProvider>
     </>

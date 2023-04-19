@@ -52,7 +52,7 @@ export default function CardItem({
 
   return (
     <motion.div
-      whileHover={{ translateY: -30 }}
+      whileHover={{ translateY: -15 }}
       whileTap={{ scale: 0.9 }}
       className={active ? 'card active' : 'card'}
       onClick={() => handleEstimation(label)}
