@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useFirebaseAuth } from '../firebase/context/auth.context';
 import { Box, Chip, Divider, Grid, Typography } from '@mui/material';
 import ToolBar from './ToolBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Auth() {
   const [signingIn, setSigningIn] = useState(false);
@@ -11,9 +11,10 @@ export default function Auth() {
   let [searchParams] = useSearchParams();
   const callBackUrl = searchParams.get('callBackUrl') || '/create-room';
 
-  if (user?.uid) {
-    navigate('/create-room')
-  }
+  useEffect(() => {
+    if (user?.uid) navigate(callBackUrl);
+  }, [user])
+
 
   const handleSignInWithGoogle = async () => {
     setSigningIn(true)
@@ -22,7 +23,6 @@ export default function Auth() {
       if (user.uid) {
         setTimeout(() => {
           setSigningIn(false)
-          navigate(callBackUrl)
         }, 2000);
       }
     } catch (error) {
