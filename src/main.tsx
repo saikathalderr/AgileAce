@@ -5,6 +5,7 @@ import { AuthProvider } from './firebase/context/auth.context';
 import './index.css';
 import AuthPage from './pages/authPage';
 import CreateRoomPage from './pages/createRoomPage';
+import Feedbacks from './pages/feedbacks';
 import JoinRoomPage from './pages/joinRoomPage';
 import Room from './pages/room';
 import theme from './theme';
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: 'login',
     element: <AuthPage />,
+  },
+  {
+    path: 'feedbacks',
+    element: <Feedbacks />,
   },
 ]);
 

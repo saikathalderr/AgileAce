@@ -2,6 +2,7 @@ import LogoSvg from './assets/AgileAce.svg';
 import DemoSvg from './assets/demo.svg';
 import { Button, Typography, Box } from '@mui/material';
 import {Link} from "react-router-dom";
+import ReviewButton from './components/reviewButton';
 
 function App() {
   return (
@@ -85,6 +86,7 @@ function App() {
           />
         </Box>
       </div>
+      {/* <ReviewButton /> */}
     </>
   );
 }

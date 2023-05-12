@@ -14,8 +14,9 @@ function Footer() {
     >
       <Divider sx={{ mb: 1 }} />
       <Typography variant='subtitle1' sx={{ mb: 1 }} gutterBottom>
-        Made with{' '}
-        <a href='https://reactjs.org/' target='_blank'>
+        Made with
+        {' '}
+        {/* <a href='https://reactjs.org/' target='_blank'>
           <b>React</b>
         </a>
         ,{' '}
@@ -26,7 +27,8 @@ function Footer() {
         <a href='https://firebase.google.com/' target='_blank'>
           <b>Firebase</b>
         </a>{' '}
-        & ❤️ by{' '}
+        & */}
+        ❤️ by{' '}
         <b>
           <a href='https://www.linkedin.com/in/saikathalderr/' target='_blank'>
             Saikat Halder
