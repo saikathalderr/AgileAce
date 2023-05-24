@@ -1,5 +1,5 @@
 import LogoSvg from './assets/AgileAce.svg';
-import DemoSvg from './assets/demo.svg';
+import DemoSvg from './assets/Demo.svg';
 import { Button, Typography, Box } from '@mui/material';
 import {Link} from "react-router-dom";
 import ReviewButton from './components/reviewButton';
