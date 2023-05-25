@@ -44,10 +44,10 @@ function App() {
             sx={{
               my: 3,
               textAlign: 'center',
-              fontWeight: 900,
+              fontWeight: 600,
               lineHeight: 1,
-              fontSize: '15px',
-              color: 'rgba(36, 36, 36, 0.4)',
+              fontSize: '1.2rem',
+              color: 'rgba(36, 36, 36, 0.8)',
             }}
           >
             Efficiently estimate project tasks with a user-friendlyScrum <br /> Poker
